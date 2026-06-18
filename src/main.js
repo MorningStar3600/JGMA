@@ -6,7 +6,7 @@ const app = document.querySelector('#app');
 function serviceDetail(service) {
   return `
     <div class="service-detail-content">
-      <span class="service-progress-label">Défilement auto</span>
+      <span class="service-progress-label" aria-hidden="true">Défilement auto</span>
       <p class="font-display text-3xl leading-none text-gold-400">${service.number}</p>
       <h3 class="mt-3 font-display text-3xl font-semibold leading-none text-white md:text-[2.55rem]">${service.title}</h3>
       <p class="mt-5 max-w-2xl text-[0.95rem] leading-7 text-white/70">${service.description}</p>
@@ -30,7 +30,8 @@ function serviceDetail(service) {
 
 function render() {
   app.innerHTML = `
-    <div class="fixed left-0 top-0 z-[60] h-px w-full origin-left scale-x-0 bg-gradient-to-r from-gold-300 via-gold-500 to-white/70" data-scroll-progress></div>
+    <a class="skip-link" href="#top">Aller au contenu principal</a>
+    <div class="fixed left-0 top-0 z-[60] h-px w-full origin-left scale-x-0 bg-gradient-to-r from-gold-300 via-gold-500 to-white/70" data-scroll-progress aria-hidden="true"></div>
     <header class="fixed inset-x-0 top-0 z-50 border-b border-gold-500/[0.15] bg-navy-950/75 px-5 backdrop-blur-xl transition md:px-12" data-header>
       <div class="mx-auto flex h-[70px] max-w-[1320px] items-center justify-between">
         <a href="#top" class="flex items-baseline gap-2 text-white no-underline" aria-label="JGM Advisory">
@@ -51,7 +52,7 @@ function render() {
       </div>
     </header>
 
-    <main id="top">
+    <main id="top" tabindex="-1" aria-label="Contenu principal">
       <section class="hero-stage relative isolate flex items-center overflow-hidden bg-navy-950 px-6 pb-14 pt-28 text-white md:px-12 md:pb-16 md:pt-32" data-hero>
         <img class="hero-portrait absolute inset-0 -z-20 h-full w-full object-cover object-[70%_center] opacity-44 md:object-right" src="${site.portrait}" alt="" aria-hidden="true" />
         <div class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(7,16,31,0.98)_0%,rgba(7,16,31,0.9)_45%,rgba(7,16,31,0.38)_100%)]"></div>
@@ -102,11 +103,12 @@ function render() {
           <h2 class="display-title text-5xl text-navy-950 md:text-[3.35rem]">De la stratégie à l’opérationnel, sans frontière de périmètre.</h2>
         </div>
         <div class="mt-7 grid gap-5 lg:grid-cols-[370px_1fr]">
-          <div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-1" role="list" aria-label="Domaines d’intervention">
+          <p class="sr-only" id="service-tabs-help">Sélectionnez un domaine d'intervention pour afficher son détail. Les flèches du clavier permettent de passer d'un domaine au suivant.</p>
+          <div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-1" role="tablist" aria-label="Domaines d’intervention" aria-describedby="service-tabs-help">
             ${services
               .map(
                 (service, index) => `
-                  <button class="service-tab group reveal min-h-[78px] rounded-lg border border-navy-900/10 bg-white/75 p-3.5 text-left shadow-[0_8px_26px_rgba(7,16,31,0.06)] transition hover:-translate-y-0.5 hover:border-gold-500/75 hover:bg-white hover:shadow-premium md:min-h-[78px] ${index === 0 ? 'is-active border-gold-500/80 bg-white shadow-premium' : ''}" style="--reveal-delay: ${index * 70}ms" type="button" data-service-index="${index}" aria-pressed="${index === 0 ? 'true' : 'false'}">
+                  <button class="service-tab group reveal min-h-[78px] rounded-lg border border-navy-900/10 bg-white/75 p-3.5 text-left shadow-[0_8px_26px_rgba(7,16,31,0.06)] transition hover:-translate-y-0.5 hover:border-gold-500/75 hover:bg-white hover:shadow-premium md:min-h-[78px] ${index === 0 ? 'is-active border-gold-500/80 bg-white shadow-premium' : ''}" style="--reveal-delay: ${index * 70}ms" type="button" id="service-tab-${index}" data-service-index="${index}" role="tab" aria-controls="service-detail" aria-selected="${index === 0 ? 'true' : 'false'}" aria-pressed="${index === 0 ? 'true' : 'false'}" tabindex="${index === 0 ? '0' : '-1'}">
                     <span class="service-tab__num block font-display text-lg leading-none text-gold-700">${service.number}</span>
                     <strong class="service-tab__title mt-1 block font-display text-[1.12rem] leading-tight text-navy-950 md:text-[1.18rem]">${service.title}</strong>
                     <small class="service-tab__short mt-1 block text-[0.76rem] leading-4 text-slate-500">${service.short}</small>
@@ -118,7 +120,7 @@ function render() {
               )
               .join('')}
           </div>
-          <article class="reveal premium-surface min-h-[420px] rounded-lg border border-gold-500/25 bg-[linear-gradient(155deg,rgba(19,35,61,0.97),rgba(7,16,31,0.99))] p-6 shadow-deep md:p-8" style="--reveal-delay: 140ms" data-service-detail>
+          <article class="reveal premium-surface min-h-[420px] rounded-lg border border-gold-500/25 bg-[linear-gradient(155deg,rgba(19,35,61,0.97),rgba(7,16,31,0.99))] p-6 shadow-deep md:p-8" style="--reveal-delay: 140ms" id="service-detail" data-service-detail role="tabpanel" aria-labelledby="service-tab-0">
             ${serviceDetail(services[0])}
           </article>
         </div>
@@ -204,8 +206,8 @@ function render() {
           <h2 class="display-title text-5xl text-white md:text-6xl">Un projet, une mission, une question.</h2>
           <p class="mt-6 max-w-2xl text-lg leading-8 text-white/[0.66]">Écrivez-moi directement pour ouvrir un premier échange.</p>
           <div class="mt-10 flex flex-col gap-3 sm:flex-row">
-            <a class="premium-button premium-button-primary" href="mailto:${site.email}">Envoyer un email</a>
-            <button class="premium-button premium-button-secondary" type="button" data-copy-email="${site.email}">Copier l’email</button>
+            <a class="premium-button premium-button-primary" href="mailto:${site.email}" aria-label="Envoyer un email à Jean-Gabriel Michaud">Envoyer un email</a>
+            <button class="premium-button premium-button-secondary" type="button" data-copy-email="${site.email}" aria-label="Copier l’adresse email ${site.email}">Copier l’email</button>
           </div>
           <dl class="mt-14 grid gap-4 md:grid-cols-3">
             <div class="rounded-lg border border-white/[0.12] bg-white/[0.055] p-6">
@@ -218,7 +220,7 @@ function render() {
             </div>
             <div class="rounded-lg border border-white/[0.12] bg-white/[0.055] p-6">
               <dt class="font-bold text-gold-300">LinkedIn</dt>
-              <dd class="mt-2 m-0 text-white/75"><a class="underline decoration-gold-400/50 underline-offset-4" href="${site.linkedin}" target="_blank" rel="noreferrer">Jean-Gabriel Michaud</a></dd>
+              <dd class="mt-2 m-0 text-white/75"><a class="underline decoration-gold-400/50 underline-offset-4" href="${site.linkedin}" target="_blank" rel="noreferrer" aria-label="Profil LinkedIn de Jean-Gabriel Michaud, ouvre un nouvel onglet">Jean-Gabriel Michaud</a></dd>
             </div>
           </dl>
         </div>
@@ -280,6 +282,7 @@ function bindInteractions() {
     document.body.classList.remove('menu-open');
     navPanel?.classList.add('pointer-events-none', 'translate-y-[-10px]', 'opacity-0');
     menuToggle?.setAttribute('aria-expanded', 'false');
+    menuToggle?.setAttribute('aria-label', 'Ouvrir le menu');
   };
 
   const showToast = (message) => {
@@ -299,6 +302,7 @@ function bindInteractions() {
     const nextOpen = !document.body.classList.contains('menu-open');
     document.body.classList.toggle('menu-open', nextOpen);
     menuToggle.setAttribute('aria-expanded', String(nextOpen));
+    menuToggle.setAttribute('aria-label', nextOpen ? 'Fermer le menu' : 'Ouvrir le menu');
     navPanel?.classList.toggle('pointer-events-none', !nextOpen);
     navPanel?.classList.toggle('translate-y-[-10px]', !nextOpen);
     navPanel?.classList.toggle('opacity-0', !nextOpen);
@@ -374,8 +378,11 @@ function bindInteractions() {
       item.classList.toggle('border-gold-500/80', active);
       item.classList.toggle('bg-white', active);
       item.classList.toggle('shadow-premium', active);
+      item.setAttribute('aria-selected', String(active));
       item.setAttribute('aria-pressed', String(active));
+      item.setAttribute('tabindex', active ? '0' : '-1');
     });
+    serviceDetailEl.setAttribute('aria-labelledby', `service-tab-${index}`);
 
     const finish = () => {
       serviceDetailEl.innerHTML = serviceDetail(service);
@@ -394,6 +401,28 @@ function bindInteractions() {
   serviceButtons.forEach((button) => {
     button.addEventListener('click', () => {
       setActiveService(Number(button.dataset.serviceIndex), { animate: true });
+    });
+
+    button.addEventListener('keydown', (event) => {
+      const currentIndex = Number(button.dataset.serviceIndex);
+      const keyMap = {
+        ArrowDown: 1,
+        ArrowRight: 1,
+        ArrowUp: -1,
+        ArrowLeft: -1
+      };
+
+      if (event.key === 'Home' || event.key === 'End' || event.key in keyMap) {
+        event.preventDefault();
+        const nextIndex =
+          event.key === 'Home'
+            ? 0
+            : event.key === 'End'
+              ? services.length - 1
+              : (currentIndex + keyMap[event.key] + services.length) % services.length;
+        setActiveService(nextIndex, { animate: true });
+        serviceButtons[nextIndex]?.focus();
+      }
     });
   });
 
@@ -525,7 +554,12 @@ function bindInteractions() {
 
         if (!visible) return;
         const href = `#${visible.target.id}`;
-        navLinks.forEach((link) => link.classList.toggle('is-active', link.dataset.navLink === href));
+        navLinks.forEach((link) => {
+          const active = link.dataset.navLink === href;
+          link.classList.toggle('is-active', active);
+          if (active) link.setAttribute('aria-current', 'true');
+          else link.removeAttribute('aria-current');
+        });
       },
       { rootMargin: '-35% 0px -50% 0px', threshold: [0.1, 0.25, 0.5] }
     );
