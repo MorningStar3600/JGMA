@@ -1,12 +1,44 @@
 import './styles.css';
-import { approach, navItems, proofPoints, references, services, site, timeline } from './content.js';
+import { languages, site, translations } from './content.js';
+import { createI18n } from './i18n.js';
 
 const app = document.querySelector('#app');
+const i18n = createI18n({ translations, defaultLocale: 'fr' });
+let cleanupInteractions = () => {};
 
-function serviceDetail(service) {
+function setMeta(selector, value) {
+  const element = document.querySelector(selector);
+  if (element && value) element.setAttribute('content', value);
+}
+
+function updateMetadata(content, locale) {
+  document.documentElement.lang = locale;
+  document.title = content.meta.title;
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical) {
+    canonical.setAttribute('href', locale === 'en' ? 'https://jgmadvisory.com/?lang=en' : 'https://jgmadvisory.com/');
+  }
+  setMeta('meta[name="description"]', content.meta.description);
+  setMeta('meta[property="og:locale"]', content.meta.locale);
+  setMeta('meta[property="og:title"]', content.meta.title);
+  setMeta('meta[property="og:description"]', content.meta.ogDescription);
+  setMeta('meta[name="twitter:title"]', content.meta.title);
+  setMeta('meta[name="twitter:description"]', content.meta.description);
+}
+
+function languageOptions(locale) {
+  return languages
+    .map(
+      (language) =>
+        `<option value="${language.locale}" ${language.locale === locale ? 'selected' : ''}>${language.short}</option>`
+    )
+    .join('');
+}
+
+function serviceDetail(service, ui) {
   return `
     <div class="service-detail-content">
-      <span class="service-progress-label" aria-hidden="true">Défilement auto</span>
+      <span class="service-progress-label" aria-hidden="true">${ui.autoScroll}</span>
       <p class="font-display text-3xl leading-none text-gold-400">${service.number}</p>
       <h3 class="mt-3 font-display text-3xl font-semibold leading-none text-white md:text-[2.55rem]">${service.title}</h3>
       <p class="mt-5 max-w-2xl text-[0.95rem] leading-7 text-white/70">${service.description}</p>
@@ -29,8 +61,13 @@ function serviceDetail(service) {
 }
 
 function render() {
+  const content = i18n.t();
+  const locale = i18n.locale;
+  updateMetadata(content, locale);
+  document.body.classList.remove('is-ready');
+
   app.innerHTML = `
-    <a class="skip-link" href="#top">Aller au contenu principal</a>
+    <a class="skip-link" href="#top">${content.ui.skipLink}</a>
     <div class="fixed left-0 top-0 z-[60] h-px w-full origin-left scale-x-0 bg-gradient-to-r from-gold-300 via-gold-500 to-white/70" data-scroll-progress aria-hidden="true"></div>
     <header class="fixed inset-x-0 top-0 z-50 border-b border-gold-500/[0.15] bg-navy-950/75 px-5 backdrop-blur-xl transition md:px-12" data-header>
       <div class="mx-auto flex h-[70px] max-w-[1320px] items-center justify-between">
@@ -38,46 +75,52 @@ function render() {
           <span class="font-display text-3xl font-bold text-gold-400">JGM</span>
           <span class="text-sm font-medium text-white/70">Advisory</span>
         </a>
-        <button class="grid h-11 w-11 place-items-center rounded-md border border-white/20 text-white md:hidden" type="button" data-menu-toggle aria-label="Ouvrir le menu" aria-expanded="false">
+        <button class="grid h-11 w-11 place-items-center rounded-md border border-white/20 text-white md:hidden" type="button" data-menu-toggle aria-label="${content.ui.menuOpen}" aria-expanded="false">
           <span class="relative block h-3 w-5 before:absolute before:left-0 before:top-0 before:h-px before:w-5 before:bg-current before:transition after:absolute after:bottom-0 after:left-0 after:h-px after:w-5 after:bg-current after:transition"></span>
         </button>
-        <nav class="nav-panel pointer-events-none fixed left-3 right-3 top-[78px] grid translate-y-[-10px] gap-1 rounded-lg border border-gold-500/20 bg-navy-950/95 p-2 opacity-0 shadow-deep transition md:pointer-events-auto md:static md:flex md:items-center md:translate-y-0 md:gap-8 md:border-0 md:bg-transparent md:p-0 md:opacity-100 md:shadow-none" aria-label="Navigation principale">
-          ${navItems
+        <nav class="nav-panel pointer-events-none fixed left-3 right-3 top-[78px] grid translate-y-[-10px] gap-1 rounded-lg border border-gold-500/20 bg-navy-950/95 p-2 opacity-0 shadow-deep transition md:pointer-events-auto md:static md:flex md:items-center md:translate-y-0 md:gap-5 md:border-0 md:bg-transparent md:p-0 md:opacity-100 md:shadow-none lg:gap-8" aria-label="${content.ui.navLabel}">
+          ${content.navItems
             .map(
               ([label, href]) =>
                 `<a class="nav-link${href === '#contact' ? ' nav-link--cta' : ''} rounded-md px-4 py-3 text-sm font-semibold text-white/70 no-underline transition hover:bg-white/[0.08] hover:text-white md:px-0 md:py-0 md:hover:bg-transparent" href="${href}" data-nav-link="${href}"><span>${label}</span></a>`
             )
             .join('')}
+          <div class="language-switcher">
+            <label class="sr-only" for="language-select">${content.ui.languageLabel}</label>
+            <select class="language-select" id="language-select" data-language-select aria-label="${content.ui.languageLabel}">
+              ${languageOptions(locale)}
+            </select>
+          </div>
         </nav>
       </div>
     </header>
 
-    <main id="top" tabindex="-1" aria-label="Contenu principal">
+    <main id="top" tabindex="-1" aria-label="${content.ui.mainLabel}">
       <section class="hero-stage relative isolate flex items-center overflow-hidden bg-navy-950 px-6 pb-14 pt-28 text-white md:px-12 md:pb-16 md:pt-32" data-hero>
         <img class="hero-portrait absolute inset-0 -z-20 h-full w-full object-cover object-[70%_center] opacity-44 md:object-right" src="${site.portrait}" alt="" aria-hidden="true" />
         <div class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(7,16,31,0.98)_0%,rgba(7,16,31,0.9)_45%,rgba(7,16,31,0.38)_100%)]"></div>
         <div class="absolute inset-0 -z-10 noise opacity-60"></div>
         <div class="hero-spotlight absolute inset-0 -z-10"></div>
         <div class="site-shell">
-          <p class="eyebrow hero-reveal">Conseil indépendant à Lyon</p>
-          <h1 class="display-title hero-reveal max-w-3xl text-[4rem] text-white sm:text-[5rem] md:text-[6.4rem]">JGM Advisory</h1>
-          <p class="hero-reveal mt-5 max-w-2xl font-display text-3xl leading-tight text-gold-300 md:text-4xl">Conseil en transformation, organisation et culture d’entreprise</p>
-          <p class="hero-reveal mt-7 max-w-2xl text-lg leading-8 text-white/75">J’accompagne les organisations de bout en bout sur leurs transformations à forts enjeux organisationnels et humains.</p>
+          <p class="eyebrow hero-reveal">${content.hero.eyebrow}</p>
+          <h1 class="display-title hero-reveal max-w-3xl text-[4rem] text-white sm:text-[5rem] md:text-[6.4rem]">${content.hero.title}</h1>
+          <p class="hero-reveal mt-5 max-w-2xl font-display text-3xl leading-tight text-gold-300 md:text-4xl">${content.hero.subtitle}</p>
+          <p class="hero-reveal mt-7 max-w-2xl text-lg leading-8 text-white/75">${content.hero.intro}</p>
           <div class="hero-reveal mt-10 flex flex-col gap-3 sm:flex-row">
-            <a class="premium-button premium-button-primary" href="#contact">Démarrer un échange</a>
-            <a class="premium-button premium-button-secondary" href="#offre">Voir les expertises</a>
+            <a class="premium-button premium-button-primary" href="#contact">${content.hero.primaryCta}</a>
+            <a class="premium-button premium-button-secondary" href="#offre">${content.hero.secondaryCta}</a>
           </div>
         </div>
       </section>
 
-      <section class="bg-navy-900 px-6 text-white md:px-12" aria-label="Chiffres clés" data-section>
+      <section class="bg-navy-900 px-6 text-white md:px-12" aria-label="${content.ui.proofLabel}" data-section>
         <ul class="site-shell grid list-none divide-y divide-white/10 p-0 md:grid-cols-3 md:divide-x md:divide-y-0">
-          ${proofPoints
+          ${content.proofPoints
             .map(
-              ([value, label], index) => `
+              (point, index) => `
                 <li class="reveal min-h-32 py-7 md:px-8" style="--reveal-delay: ${index * 90}ms">
-                  <strong class="block font-display text-4xl font-semibold leading-none text-gold-300">${index === 0 ? `${value} d’expérience` : value}</strong>
-                  <span class="mt-3 block max-w-xs text-white/[0.64]">${index === 0 ? 'en conseil et transformation' : label}</span>
+                  <strong class="block font-display text-4xl font-semibold leading-none text-gold-300">${point.value}${point.suffix ? ` ${point.suffix}` : ''}</strong>
+                  <span class="mt-3 block max-w-xs text-white/[0.64]">${point.label}</span>
                 </li>
               `
             )
@@ -87,25 +130,24 @@ function render() {
 
       <section class="site-shell grid gap-12 py-20 md:grid-cols-[0.9fr_1.1fr] md:gap-20 md:py-28" data-section>
         <div class="reveal">
-          <p class="eyebrow">À propos</p>
-          <h2 class="display-title text-5xl text-navy-950 md:text-6xl">Une pratique de conseil exigeante, directe et proche du terrain.</h2>
+          <p class="eyebrow">${content.about.eyebrow}</p>
+          <h2 class="display-title text-5xl text-navy-950 md:text-6xl">${content.about.title}</h2>
         </div>
         <div class="reveal space-y-6 text-lg leading-8 text-slate-600" style="--reveal-delay: 120ms">
-          <p>Consultant indépendant basé à Lyon, j’accompagne depuis plus de 22 ans des organisations de toutes tailles: PME en croissance, ETI et grands groupes internationaux.</p>
-          <p>J’interviens aussi bien auprès des Comités de Direction que des équipes terrain, sur des transformations de grande ampleur comme sur des chantiers opérationnels ciblés.</p>
-          <a class="light-button premium-button mt-2" href="#parcours">En savoir plus sur le parcours</a>
+          ${content.about.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join('')}
+          <a class="light-button premium-button mt-2" href="#parcours">${content.about.cta}</a>
         </div>
       </section>
 
       <section class="site-shell py-16 md:py-20" id="offre" data-section>
         <div class="reveal max-w-3xl">
-          <p class="eyebrow">Domaines d’intervention</p>
-          <h2 class="display-title text-5xl text-navy-950 md:text-[3.35rem]">De la stratégie à l’opérationnel, sans frontière de périmètre.</h2>
+          <p class="eyebrow">${content.offer.eyebrow}</p>
+          <h2 class="display-title text-5xl text-navy-950 md:text-[3.35rem]">${content.offer.title}</h2>
         </div>
         <div class="mt-7 grid gap-5 lg:grid-cols-[370px_1fr]">
-          <p class="sr-only" id="service-tabs-help">Sélectionnez un domaine d'intervention pour afficher son détail. Les flèches du clavier permettent de passer d'un domaine au suivant.</p>
-          <div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-1" role="tablist" aria-label="Domaines d’intervention" aria-describedby="service-tabs-help">
-            ${services
+          <p class="sr-only" id="service-tabs-help">${content.ui.serviceTabsHelp}</p>
+          <div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-1" role="tablist" aria-label="${content.offer.eyebrow}" aria-describedby="service-tabs-help">
+            ${content.services
               .map(
                 (service, index) => `
                   <button class="service-tab group reveal min-h-[78px] rounded-lg border border-navy-900/10 bg-white/75 p-3.5 text-left shadow-[0_8px_26px_rgba(7,16,31,0.06)] transition hover:-translate-y-0.5 hover:border-gold-500/75 hover:bg-white hover:shadow-premium md:min-h-[78px] ${index === 0 ? 'is-active border-gold-500/80 bg-white shadow-premium' : ''}" style="--reveal-delay: ${index * 70}ms" type="button" id="service-tab-${index}" data-service-index="${index}" role="tab" aria-controls="service-detail" aria-selected="${index === 0 ? 'true' : 'false'}" aria-pressed="${index === 0 ? 'true' : 'false'}" tabindex="${index === 0 ? '0' : '-1'}">
@@ -113,7 +155,7 @@ function render() {
                     <strong class="service-tab__title mt-1 block font-display text-[1.12rem] leading-tight text-navy-950 md:text-[1.18rem]">${service.title}</strong>
                     <small class="service-tab__short mt-1 block text-[0.76rem] leading-4 text-slate-500">${service.short}</small>
                     <span class="service-tab__hint mt-1.5 inline-flex items-center gap-2 text-[0.64rem] font-bold uppercase text-gold-700">
-                      Voir le détail <span aria-hidden="true">→</span>
+                      ${content.ui.detailHint} <span aria-hidden="true">→</span>
                     </span>
                   </button>
                 `
@@ -121,7 +163,7 @@ function render() {
               .join('')}
           </div>
           <article class="reveal premium-surface min-h-[420px] rounded-lg border border-gold-500/25 bg-[linear-gradient(155deg,rgba(19,35,61,0.97),rgba(7,16,31,0.99))] p-6 shadow-deep md:p-8" style="--reveal-delay: 140ms" id="service-detail" data-service-detail role="tabpanel" aria-labelledby="service-tab-0">
-            ${serviceDetail(services[0])}
+            ${serviceDetail(content.services[0], content.ui)}
           </article>
         </div>
       </section>
@@ -129,12 +171,12 @@ function render() {
       <section class="bg-navy-950 px-6 py-20 text-white md:px-12 md:py-28" id="approche" data-section>
         <div class="site-shell">
           <div class="reveal max-w-3xl">
-            <p class="eyebrow">Mon approche</p>
-            <h2 class="display-title text-5xl text-white md:text-6xl">Pas seulement une méthode. <span class="text-gold-300">Une façon d’être.</span></h2>
-            <p class="mt-6 text-lg leading-8 text-white/[0.64]">Ce qui guide chaque mission: la clarté, le respect du terrain et une exigence de conseil sans posture inutile.</p>
+            <p class="eyebrow">${content.approachSection.eyebrow}</p>
+            <h2 class="display-title text-5xl text-white md:text-6xl">${content.approachSection.titleLead} <span class="text-gold-300">${content.approachSection.titleGold}</span></h2>
+            <p class="mt-6 text-lg leading-8 text-white/[0.64]">${content.approachSection.intro}</p>
           </div>
           <div class="mt-12 grid border-l border-t border-white/[0.12] md:grid-cols-2 xl:grid-cols-4">
-            ${approach
+            ${content.approach
               .map(
                 ([number, title, text]) => `
                   <article class="reveal min-h-[300px] border-b border-r border-white/[0.12] bg-white/[0.025] p-7" style="--reveal-delay: ${Number(number) * 80}ms">
@@ -151,12 +193,12 @@ function render() {
 
       <section class="site-shell py-20 md:py-28" id="references" data-section>
         <div class="reveal max-w-3xl">
-          <p class="eyebrow">Références</p>
-          <h2 class="display-title text-5xl text-navy-950 md:text-6xl">Quelques missions réalisées au cours des 24 derniers mois.</h2>
-          <p class="mt-6 text-lg leading-8 text-slate-600">Les noms de clients restent confidentiels.</p>
+          <p class="eyebrow">${content.referencesSection.eyebrow}</p>
+          <h2 class="display-title text-5xl text-navy-950 md:text-6xl">${content.referencesSection.title}</h2>
+          <p class="mt-6 text-lg leading-8 text-slate-600">${content.referencesSection.intro}</p>
         </div>
         <div class="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          ${references
+          ${content.references
             .map(
               ([sector, mission], index) => `
                 <article class="reference-card reveal min-h-[210px] rounded-lg border border-navy-900/10 bg-white p-7 shadow-[0_12px_34px_rgba(7,16,31,0.06)]" style="--reveal-delay: ${(index % 3) * 80}ms">
@@ -171,19 +213,19 @@ function render() {
 
       <section class="site-shell grid gap-12 border-t border-stone-300 py-20 md:grid-cols-[360px_1fr] md:gap-20 md:py-28" id="parcours" data-section>
         <aside class="reveal premium-surface overflow-hidden rounded-lg bg-navy-950 shadow-deep md:sticky md:top-28 md:self-start">
-          <img class="aspect-[4/5] w-full object-cover saturate-[0.86]" src="${site.portrait}" alt="Portrait de Jean-Gabriel Michaud" loading="lazy" />
+          <img class="aspect-[4/5] w-full object-cover saturate-[0.86]" src="${site.portrait}" alt="${content.ui.portraitAlt}" loading="lazy" />
           <div class="border-t border-gold-500/30 p-6 text-white">
-            <strong class="block font-display text-3xl leading-none">Jean-Gabriel Michaud</strong>
-            <span class="mt-2 block text-white/[0.62]">Consultant indépendant - Lyon</span>
+            <strong class="block font-display text-3xl leading-none">${site.owner}</strong>
+            <span class="mt-2 block text-white/[0.62]">${content.profile.role}</span>
           </div>
         </aside>
         <div class="reveal" style="--reveal-delay: 120ms">
-          <p class="eyebrow">Qui je suis</p>
-          <h2 class="display-title text-5xl text-navy-950 md:text-6xl">Jean-Gabriel Michaud</h2>
-          <p class="mt-7 text-lg leading-8 text-slate-600">Mes domaines d’intervention sont variés: stratégie, organisation, processus, conduite du changement, développement managérial, coaching. Depuis 2022, une grande partie de mes missions porte sur la culture d’entreprise, dont j’ai fait ma spécialité.</p>
-          <p class="mt-7 border-l-4 border-gold-500 bg-white p-5 text-slate-700 shadow-[0_10px_26px_rgba(7,16,31,0.06)]">Pour les programmes de grande envergure, j’interviens également aux côtés de partenaires externes - cabinets spécialisés ou consultants indépendants - selon les besoins spécifiques de la mission.</p>
+          <p class="eyebrow">${content.profile.eyebrow}</p>
+          <h2 class="display-title text-5xl text-navy-950 md:text-6xl">${content.profile.title}</h2>
+          <p class="mt-7 text-lg leading-8 text-slate-600">${content.profile.paragraphs[0]}</p>
+          <p class="mt-7 border-l-4 border-gold-500 bg-white p-5 text-slate-700 shadow-[0_10px_26px_rgba(7,16,31,0.06)]">${content.profile.paragraphs[1]}</p>
           <ol class="mt-10 list-none p-0">
-            ${timeline
+            ${content.timeline
               .map(
                 ([date, role, org]) => `
                   <li class="timeline-item grid gap-2 border-t border-stone-300 py-6 md:grid-cols-[150px_1fr] md:gap-8">
@@ -202,25 +244,25 @@ function render() {
 
       <section class="bg-[linear-gradient(135deg,rgba(7,16,31,0.99),rgba(19,35,61,0.99))] px-6 py-20 text-white md:px-12 md:py-28" id="contact" data-section>
         <div class="reveal mx-auto max-w-5xl">
-          <p class="eyebrow">Travaillons ensemble</p>
-          <h2 class="display-title text-5xl text-white md:text-6xl">Un projet, une mission, une question.</h2>
-          <p class="mt-6 max-w-2xl text-lg leading-8 text-white/[0.66]">Écrivez-moi directement pour ouvrir un premier échange.</p>
+          <p class="eyebrow">${content.contact.eyebrow}</p>
+          <h2 class="display-title text-5xl text-white md:text-6xl">${content.contact.title}</h2>
+          <p class="mt-6 max-w-2xl text-lg leading-8 text-white/[0.66]">${content.contact.intro}</p>
           <div class="mt-10 flex flex-col gap-3 sm:flex-row">
-            <a class="premium-button premium-button-primary" href="mailto:${site.email}" aria-label="Envoyer un email à Jean-Gabriel Michaud">Envoyer un email</a>
-            <button class="premium-button premium-button-secondary" type="button" data-copy-email="${site.email}" aria-label="Copier l’adresse email ${site.email}">Copier l’email</button>
+            <a class="premium-button premium-button-primary" href="mailto:${site.email}" aria-label="${content.ui.sendEmailLabel}">${content.contact.emailCta}</a>
+            <button class="premium-button premium-button-secondary" type="button" data-copy-email="${site.email}" aria-label="${content.ui.copyEmailLabel} ${site.email}">${content.contact.copyCta}</button>
           </div>
           <dl class="mt-14 grid gap-4 md:grid-cols-3">
             <div class="rounded-lg border border-white/[0.12] bg-white/[0.055] p-6">
-              <dt class="font-bold text-gold-300">Email</dt>
+              <dt class="font-bold text-gold-300">${content.contact.emailLabel}</dt>
               <dd class="mt-2 m-0 text-white/75"><a class="underline decoration-gold-400/50 underline-offset-4" href="mailto:${site.email}">${site.email}</a></dd>
             </div>
             <div class="rounded-lg border border-white/[0.12] bg-white/[0.055] p-6">
-              <dt class="font-bold text-gold-300">Localisation</dt>
-              <dd class="mt-2 m-0 text-white/75">${site.location}<br />Interventions en France et à l’international</dd>
+              <dt class="font-bold text-gold-300">${content.contact.locationLabel}</dt>
+              <dd class="mt-2 m-0 text-white/75">${site.location}<br />${content.contact.locationText}</dd>
             </div>
             <div class="rounded-lg border border-white/[0.12] bg-white/[0.055] p-6">
-              <dt class="font-bold text-gold-300">LinkedIn</dt>
-              <dd class="mt-2 m-0 text-white/75"><a class="underline decoration-gold-400/50 underline-offset-4" href="${site.linkedin}" target="_blank" rel="noreferrer" aria-label="Profil LinkedIn de Jean-Gabriel Michaud, ouvre un nouvel onglet">Jean-Gabriel Michaud</a></dd>
+              <dt class="font-bold text-gold-300">${content.contact.linkedinLabel}</dt>
+              <dd class="mt-2 m-0 text-white/75"><a class="underline decoration-gold-400/50 underline-offset-4" href="${site.linkedin}" target="_blank" rel="noreferrer" aria-label="${content.ui.linkedinLabel}">${site.owner}</a></dd>
             </div>
           </dl>
         </div>
@@ -229,7 +271,7 @@ function render() {
 
     <footer class="flex flex-col gap-2 border-t border-white/10 bg-navy-950 px-6 py-8 text-white/[0.48] md:flex-row md:items-center md:justify-between md:px-12">
       <span class="font-display text-2xl text-gold-300">JGM Advisory</span>
-      <p class="m-0 text-sm">© 2026 JGM Advisory - Jean-Gabriel Michaud · Lyon, France</p>
+      <p class="m-0 text-sm">${content.footer}</p>
     </footer>
 
     <div class="pointer-events-none fixed bottom-5 left-5 right-5 z-[70] translate-y-3 rounded-md bg-gold-300 px-4 py-3 text-center font-bold text-navy-950 opacity-0 shadow-deep transition md:left-auto md:right-6 md:w-auto" data-toast role="status" aria-live="polite"></div>
@@ -237,9 +279,14 @@ function render() {
 }
 
 function bindInteractions() {
+  const content = i18n.t();
+  const { services } = content;
+  const controller = new AbortController();
+  const { signal } = controller;
   const header = document.querySelector('[data-header]');
   const menuToggle = document.querySelector('[data-menu-toggle]');
   const navPanel = document.querySelector('.nav-panel');
+  const languageSelect = document.querySelector('[data-language-select]');
   const serviceButtons = [...document.querySelectorAll('[data-service-index]')];
   const serviceDetailEl = document.querySelector('[data-service-detail]');
   const copyButton = document.querySelector('[data-copy-email]');
@@ -254,6 +301,10 @@ function bindInteractions() {
   let activeServiceIndex = 0;
   let serviceTimerId;
   let serviceRafId;
+  let readyTimerId;
+  let serviceVisibilityObserver;
+  let revealObserver;
+  let activeObserver;
   let serviceCycleStartedAt = 0;
   let serviceRemaining = serviceCycleDuration;
   let servicePaused = false;
@@ -278,11 +329,16 @@ function bindInteractions() {
     }
   };
 
+  const stopServiceCycle = () => {
+    window.clearTimeout(serviceTimerId);
+    window.cancelAnimationFrame(serviceRafId);
+  };
+
   const closeMenu = () => {
     document.body.classList.remove('menu-open');
     navPanel?.classList.add('pointer-events-none', 'translate-y-[-10px]', 'opacity-0');
     menuToggle?.setAttribute('aria-expanded', 'false');
-    menuToggle?.setAttribute('aria-label', 'Ouvrir le menu');
+    menuToggle?.setAttribute('aria-label', content.ui.menuOpen);
   };
 
   const showToast = (message) => {
@@ -292,33 +348,10 @@ function bindInteractions() {
     window.setTimeout(() => toast.classList.add('translate-y-3', 'opacity-0'), 2200);
   };
 
-  window.addEventListener('scroll', updateHeader, { passive: true });
-  window.addEventListener('resize', updateHeader, { passive: true });
-  updateHeader();
-
-  window.setTimeout(() => document.body.classList.add('is-ready'), 80);
-
-  menuToggle?.addEventListener('click', () => {
-    const nextOpen = !document.body.classList.contains('menu-open');
-    document.body.classList.toggle('menu-open', nextOpen);
-    menuToggle.setAttribute('aria-expanded', String(nextOpen));
-    menuToggle.setAttribute('aria-label', nextOpen ? 'Fermer le menu' : 'Ouvrir le menu');
-    navPanel?.classList.toggle('pointer-events-none', !nextOpen);
-    navPanel?.classList.toggle('translate-y-[-10px]', !nextOpen);
-    navPanel?.classList.toggle('opacity-0', !nextOpen);
-  });
-
-  navPanel?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
-
   const setServiceProgress = (progress) => {
     const progressBarEl = serviceDetailEl?.querySelector('[data-service-progress]');
     if (!progressBarEl) return;
     progressBarEl.style.transform = `scaleX(${Math.min(Math.max(progress, 0), 1)})`;
-  };
-
-  const stopServiceCycle = () => {
-    window.clearTimeout(serviceTimerId);
-    window.cancelAnimationFrame(serviceRafId);
   };
 
   const runServiceProgress = () => {
@@ -385,7 +418,7 @@ function bindInteractions() {
     serviceDetailEl.setAttribute('aria-labelledby', `service-tab-${index}`);
 
     const finish = () => {
-      serviceDetailEl.innerHTML = serviceDetail(service);
+      serviceDetailEl.innerHTML = serviceDetail(service, content.ui);
       serviceDetailEl.classList.remove('is-switching');
       scheduleServiceCycle();
     };
@@ -398,38 +431,77 @@ function bindInteractions() {
     }
   };
 
+  window.addEventListener('scroll', updateHeader, { passive: true, signal });
+  window.addEventListener('resize', updateHeader, { passive: true, signal });
+  updateHeader();
+
+  readyTimerId = window.setTimeout(() => document.body.classList.add('is-ready'), 80);
+
+  languageSelect?.addEventListener(
+    'change',
+    (event) => {
+      i18n.setLocale(event.target.value);
+      mount();
+    },
+    { signal }
+  );
+
+  menuToggle?.addEventListener(
+    'click',
+    () => {
+      const nextOpen = !document.body.classList.contains('menu-open');
+      document.body.classList.toggle('menu-open', nextOpen);
+      menuToggle.setAttribute('aria-expanded', String(nextOpen));
+      menuToggle.setAttribute('aria-label', nextOpen ? content.ui.menuClose : content.ui.menuOpen);
+      navPanel?.classList.toggle('pointer-events-none', !nextOpen);
+      navPanel?.classList.toggle('translate-y-[-10px]', !nextOpen);
+      navPanel?.classList.toggle('opacity-0', !nextOpen);
+    },
+    { signal }
+  );
+
+  navPanel?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu, { signal }));
+
   serviceButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      setActiveService(Number(button.dataset.serviceIndex), { animate: true });
-    });
+    button.addEventListener(
+      'click',
+      () => {
+        setActiveService(Number(button.dataset.serviceIndex), { animate: true });
+      },
+      { signal }
+    );
 
-    button.addEventListener('keydown', (event) => {
-      const currentIndex = Number(button.dataset.serviceIndex);
-      const keyMap = {
-        ArrowDown: 1,
-        ArrowRight: 1,
-        ArrowUp: -1,
-        ArrowLeft: -1
-      };
+    button.addEventListener(
+      'keydown',
+      (event) => {
+        const currentIndex = Number(button.dataset.serviceIndex);
+        const keyMap = {
+          ArrowDown: 1,
+          ArrowRight: 1,
+          ArrowUp: -1,
+          ArrowLeft: -1
+        };
 
-      if (event.key === 'Home' || event.key === 'End' || event.key in keyMap) {
-        event.preventDefault();
-        const nextIndex =
-          event.key === 'Home'
-            ? 0
-            : event.key === 'End'
-              ? services.length - 1
-              : (currentIndex + keyMap[event.key] + services.length) % services.length;
-        setActiveService(nextIndex, { animate: true });
-        serviceButtons[nextIndex]?.focus();
-      }
-    });
+        if (event.key === 'Home' || event.key === 'End' || event.key in keyMap) {
+          event.preventDefault();
+          const nextIndex =
+            event.key === 'Home'
+              ? 0
+              : event.key === 'End'
+                ? services.length - 1
+                : (currentIndex + keyMap[event.key] + services.length) % services.length;
+          setActiveService(nextIndex, { animate: true });
+          serviceButtons[nextIndex]?.focus();
+        }
+      },
+      { signal }
+    );
   });
 
-  serviceDetailEl?.addEventListener('pointerenter', pauseServiceCycle);
-  serviceDetailEl?.addEventListener('pointerleave', resumeServiceCycle);
-  serviceDetailEl?.addEventListener('focusin', pauseServiceCycle);
-  serviceDetailEl?.addEventListener('focusout', resumeServiceCycle);
+  serviceDetailEl?.addEventListener('pointerenter', pauseServiceCycle, { signal });
+  serviceDetailEl?.addEventListener('pointerleave', resumeServiceCycle, { signal });
+  serviceDetailEl?.addEventListener('focusin', pauseServiceCycle, { signal });
+  serviceDetailEl?.addEventListener('focusout', resumeServiceCycle, { signal });
 
   serviceDetailEl?.addEventListener(
     'touchstart',
@@ -440,7 +512,7 @@ function bindInteractions() {
       swipeTracking = true;
       pauseServiceCycle();
     },
-    { passive: true }
+    { passive: true, signal }
   );
 
   serviceDetailEl?.addEventListener(
@@ -453,7 +525,7 @@ function bindInteractions() {
       serviceDetailEl.classList.toggle('is-swiping', isHorizontalSwipe);
       serviceDetailEl.style.setProperty('--swipe-offset', `${Math.max(Math.min(deltaX, 56), -56)}px`);
     },
-    { passive: true }
+    { passive: true, signal }
   );
 
   serviceDetailEl?.addEventListener(
@@ -478,7 +550,7 @@ function bindInteractions() {
 
       resumeServiceCycle();
     },
-    { passive: true }
+    { passive: true, signal }
   );
 
   serviceDetailEl?.addEventListener(
@@ -489,16 +561,20 @@ function bindInteractions() {
       serviceDetailEl.style.setProperty('--swipe-offset', '0px');
       resumeServiceCycle();
     },
-    { passive: true }
+    { passive: true, signal }
   );
 
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) pauseServiceCycle();
-    else if (serviceVisible) resumeServiceCycle();
-  });
+  document.addEventListener(
+    'visibilitychange',
+    () => {
+      if (document.hidden) pauseServiceCycle();
+      else if (serviceVisible) resumeServiceCycle();
+    },
+    { signal }
+  );
 
   if ('IntersectionObserver' in window && serviceDetailEl) {
-    const serviceVisibilityObserver = new IntersectionObserver(
+    serviceVisibilityObserver = new IntersectionObserver(
       ([entry]) => {
         serviceVisible = entry.isIntersecting;
 
@@ -518,35 +594,39 @@ function bindInteractions() {
     scheduleServiceCycle();
   }
 
-  copyButton?.addEventListener('click', async () => {
-    const email = copyButton.dataset.copyEmail;
-    try {
-      await navigator.clipboard.writeText(email);
-      showToast('Email copié');
-    } catch {
-      showToast(email);
-    }
-  });
+  copyButton?.addEventListener(
+    'click',
+    async () => {
+      const email = copyButton.dataset.copyEmail;
+      try {
+        await navigator.clipboard.writeText(email);
+        showToast(content.ui.emailCopied);
+      } catch {
+        showToast(email);
+      }
+    },
+    { signal }
+  );
 
   const revealTargets = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(
+    revealObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
+          revealObserver.unobserve(entry.target);
         });
       },
       { threshold: 0.14 }
     );
-    revealTargets.forEach((target) => observer.observe(target));
+    revealTargets.forEach((target) => revealObserver.observe(target));
   } else {
     revealTargets.forEach((target) => target.classList.add('is-visible'));
   }
 
   if ('IntersectionObserver' in window && navLinks.length) {
-    const activeObserver = new IntersectionObserver(
+    activeObserver = new IntersectionObserver(
       (entries) => {
         const visible = entries
           .filter((entry) => entry.isIntersecting)
@@ -567,14 +647,31 @@ function bindInteractions() {
   }
 
   if (hero && !prefersReducedMotion) {
-    hero.addEventListener('pointermove', (event) => {
-      const rect = hero.getBoundingClientRect();
-      hero.style.setProperty('--spotlight-x', `${event.clientX - rect.left}px`);
-      hero.style.setProperty('--spotlight-y', `${event.clientY - rect.top}px`);
-    });
+    hero.addEventListener(
+      'pointermove',
+      (event) => {
+        const rect = hero.getBoundingClientRect();
+        hero.style.setProperty('--spotlight-x', `${event.clientX - rect.left}px`);
+        hero.style.setProperty('--spotlight-y', `${event.clientY - rect.top}px`);
+      },
+      { signal }
+    );
   }
 
+  return () => {
+    controller.abort();
+    stopServiceCycle();
+    window.clearTimeout(readyTimerId);
+    serviceVisibilityObserver?.disconnect();
+    revealObserver?.disconnect();
+    activeObserver?.disconnect();
+  };
 }
 
-render();
-bindInteractions();
+function mount() {
+  cleanupInteractions();
+  render();
+  cleanupInteractions = bindInteractions();
+}
+
+mount();
