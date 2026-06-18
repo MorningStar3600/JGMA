@@ -239,7 +239,7 @@ export const translations = {
     ],
     contact: {
       eyebrow: 'Travaillons ensemble',
-      title: 'Un projet, une mission, une question.',
+      title: 'Un projet, une mission, une question ?',
       intro: 'Écrivez-moi directement pour ouvrir un premier échange.',
       emailCta: 'Envoyer un email',
       copyCta: "Copier l'email",
@@ -471,7 +471,7 @@ export const translations = {
     ],
     contact: {
       eyebrow: "Let's work together",
-      title: 'A project, an assignment, a question.',
+      title: 'A project, an assignment, a question?',
       intro: 'Write to me directly to start a first conversation.',
       emailCta: 'Send an email',
       copyCta: 'Copy email',
