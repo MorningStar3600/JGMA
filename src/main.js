@@ -14,10 +14,6 @@ function setMeta(selector, value) {
 function updateMetadata(content, locale) {
   document.documentElement.lang = locale;
   document.title = content.meta.title;
-  const canonical = document.querySelector('link[rel="canonical"]');
-  if (canonical) {
-    canonical.setAttribute('href', locale === 'en' ? 'https://jgmadvisory.com/?lang=en' : 'https://jgmadvisory.com/');
-  }
   setMeta('meta[name="description"]', content.meta.description);
   setMeta('meta[property="og:locale"]', content.meta.locale);
   setMeta('meta[property="og:title"]', content.meta.title);
