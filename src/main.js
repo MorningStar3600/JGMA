@@ -130,7 +130,7 @@ function render() {
 
       <section class="site-shell grid gap-12 py-20 md:grid-cols-[0.9fr_1.1fr] md:gap-20 md:py-28" data-section>
         <div class="reveal">
-          <p class="eyebrow">${content.about.eyebrow}</p>
+          <p class="eyebrow eyebrow-on-light">${content.about.eyebrow}</p>
           <h2 class="display-title text-5xl text-navy-950 md:text-6xl">${content.about.title}</h2>
         </div>
         <div class="reveal space-y-6 text-lg leading-8 text-slate-600" style="--reveal-delay: 120ms">
@@ -141,7 +141,7 @@ function render() {
 
       <section class="site-shell py-16 md:py-20" id="offre" data-section>
         <div class="reveal max-w-3xl">
-          <p class="eyebrow">${content.offer.eyebrow}</p>
+          <p class="eyebrow eyebrow-on-light">${content.offer.eyebrow}</p>
           <h2 class="display-title text-5xl text-navy-950 md:text-[3.35rem]">${content.offer.title}</h2>
         </div>
         <div class="mt-7 grid gap-5 lg:grid-cols-[370px_1fr]">
@@ -193,7 +193,7 @@ function render() {
 
       <section class="site-shell py-20 md:py-28" id="references" data-section>
         <div class="reveal max-w-3xl">
-          <p class="eyebrow">${content.referencesSection.eyebrow}</p>
+          <p class="eyebrow eyebrow-on-light">${content.referencesSection.eyebrow}</p>
           <h2 class="display-title text-5xl text-navy-950 md:text-6xl">${content.referencesSection.title}</h2>
           <p class="mt-6 text-lg leading-8 text-slate-600">${content.referencesSection.intro}</p>
         </div>
@@ -220,7 +220,7 @@ function render() {
           </div>
         </aside>
         <div class="reveal" style="--reveal-delay: 120ms">
-          <p class="eyebrow">${content.profile.eyebrow}</p>
+          <p class="eyebrow eyebrow-on-light">${content.profile.eyebrow}</p>
           <h2 class="display-title text-5xl text-navy-950 md:text-6xl">${content.profile.title}</h2>
           <p class="mt-7 text-lg leading-8 text-slate-600">${content.profile.paragraphs[0]}</p>
           <p class="mt-7 border-l-4 border-gold-500 bg-white p-5 text-slate-700 shadow-[0_10px_26px_rgba(7,16,31,0.06)]">${content.profile.paragraphs[1]}</p>

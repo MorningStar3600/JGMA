@@ -82,6 +82,10 @@
     @apply mb-4 text-sm font-bold uppercase text-gold-500;
   }
 
+  .eyebrow-on-light {
+    @apply text-gold-700;
+  }
+
   .display-title {
     @apply font-display font-semibold leading-[0.98] tracking-normal;
   }
