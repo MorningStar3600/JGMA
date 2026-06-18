@@ -22,7 +22,7 @@ module.exports = {
       },
       fontFamily: {
         display: ['Cormorant Garamond', 'Georgia', 'serif'],
-        body: ['DM Sans', 'Arial', 'sans-serif']
+        body: ['Manrope', 'Arial', 'sans-serif']
       },
       boxShadow: {
         premium: '0 24px 80px rgba(7, 16, 31, 0.18)',
