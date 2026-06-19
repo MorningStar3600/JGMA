@@ -67,9 +67,8 @@ function render() {
     <div class="fixed left-0 top-0 z-[60] h-px w-full origin-left scale-x-0 bg-gradient-to-r from-gold-300 via-gold-500 to-white/70" data-scroll-progress aria-hidden="true"></div>
     <header class="fixed inset-x-0 top-0 z-50 border-b border-gold-500/[0.15] bg-navy-950/75 px-5 backdrop-blur-xl transition md:px-12" data-header>
       <div class="mx-auto flex h-[70px] max-w-[1320px] items-center justify-between">
-        <a href="#top" class="flex items-baseline gap-2 text-white no-underline" aria-label="JGM Advisory">
-          <span class="font-display text-3xl font-bold text-gold-400">JGM</span>
-          <span class="text-sm font-medium text-white/70">Advisory</span>
+        <a href="#top" class="brand-link text-white no-underline" aria-label="JGM Advisory">
+          <img class="brand-logo" src="${site.logo}" alt="JGM Advisory" width="5625" height="3750" />
         </a>
         <button class="grid h-11 w-11 place-items-center rounded-md border border-white/20 text-white md:hidden" type="button" data-menu-toggle aria-label="${content.ui.menuOpen}" aria-expanded="false">
           <span class="relative block h-3 w-5 before:absolute before:left-0 before:top-0 before:h-px before:w-5 before:bg-current before:transition after:absolute after:bottom-0 after:left-0 after:h-px after:w-5 after:bg-current after:transition"></span>
@@ -266,7 +265,7 @@ function render() {
     </main>
 
     <footer class="flex flex-col gap-2 border-t border-white/10 bg-navy-950 px-6 py-8 text-white/[0.48] md:flex-row md:items-center md:justify-between md:px-12">
-      <span class="font-display text-2xl text-gold-300">JGM Advisory</span>
+      <img class="footer-logo" src="${site.logo}" alt="JGM Advisory" width="5625" height="3750" loading="lazy" />
       <p class="m-0 text-sm">${content.footer}</p>
     </footer>
 

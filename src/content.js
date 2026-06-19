@@ -4,6 +4,7 @@ export const site = {
   email: 'jean-gabriel.michaud@jgmadvisory.com',
   location: 'Lyon, France',
   linkedin: 'https://www.linkedin.com/in/jean-gabriel-michaud-11b0592',
+  logo: '/assets/jgm-advisory-logo.png',
   portrait: '/assets/jean-gabriel-michaud.webp'
 };
 

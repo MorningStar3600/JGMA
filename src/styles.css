@@ -169,6 +169,24 @@
     animation-delay: 360ms;
   }
 
+  .brand-link {
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
+    width: 138px;
+    height: 54px;
+    overflow: hidden;
+  }
+
+  .brand-logo {
+    width: 138px;
+    height: auto;
+    object-fit: contain;
+    transform: translateY(-10px);
+    transform-origin: center;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.18));
+  }
+
   .nav-link {
     position: relative;
     display: inline-flex;
@@ -440,6 +458,13 @@
     padding-left: 0.75rem;
     background: rgba(255, 255, 255, 0.46);
     border-color: rgba(215, 180, 106, 0.64);
+  }
+
+  .footer-logo {
+    width: 120px;
+    height: auto;
+    object-fit: contain;
+    opacity: 0.95;
   }
 
   @keyframes heroReveal {
