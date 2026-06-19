@@ -174,7 +174,7 @@ function render() {
             <img class="about-portrait mt-7" src="${site.aboutPortrait}" alt="${content.ui.aboutPortraitAlt}" loading="lazy" width="940" height="1672" />
           </div>
           <div class="max-w-4xl">
-            <div class="space-y-6 font-display text-[1.55rem] font-medium leading-[1.35] text-navy-950 sm:text-[1.8rem] md:text-[2.05rem]">
+            <div class="space-y-6 text-xl font-medium leading-9 text-navy-950 sm:text-2xl sm:leading-10">
               ${content.about.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join('')}
             </div>
             <a class="light-button premium-button mt-8" href="#parcours">${content.about.cta}</a>

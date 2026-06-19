@@ -71,7 +71,7 @@ export const translations = {
         "Consultant indépendant basé à Lyon, j'accompagne depuis plus de 22 ans des organisations de toutes tailles — PME en croissance, ETI et grands groupes internationaux — sur leurs projets de transformation, d'organisation et de conduite du changement.",
         "J'interviens aussi bien auprès des Comités de Direction que des équipes terrain, sur des transformations de grande ampleur comme sur des chantiers opérationnels ciblés."
       ],
-      cta: 'En savoir plus sur le parcours'
+      cta: 'En savoir plus sur mon parcours'
     },
     offer: {
       eyebrow: "Domaines d'intervention",
@@ -267,9 +267,9 @@ export const translations = {
     meta: {
       title: 'JGM Advisory - Transformation & organization advisory',
       description:
-        'JGM Advisory, independent advisory practice in Lyon. Jean-Gabriel Michaud supports transformation, organization, corporate culture, change and leadership development programs.',
+        'JGM Advisory, independent advisory practice based in Lyon. Jean-Gabriel Michaud supports transformation, organization design, corporate culture, change management and leadership development programs.',
       ogDescription:
-        'I support organizations end to end through transformations with significant organizational and human stakes.',
+        'I support organizations end to end through transformations with high organizational and human stakes.',
       locale: 'en_US'
     },
     ui: {
@@ -301,10 +301,10 @@ export const translations = {
     hero: {
       eyebrow: 'Independent advisory in Lyon',
       title: 'JGM Advisory',
-      subtitleLead: 'I support your transformations from end to end',
-      subtitleAccent: 'when organizational and human stakes are high.',
+      subtitleLead: 'I support your transformations end to end',
+      subtitleAccent: 'when the organizational and human stakes are high.',
       intro:
-        'Reorganization, processes, ways of working, management — complex topics handled with rigor and commitment.',
+        'Reorganizations, processes, operating models, management — complex topics handled with rigor and commitment.',
       primaryCta: "Let's work together",
       secondaryCta: 'References'
     },
@@ -316,7 +316,7 @@ export const translations = {
     about: {
       eyebrow: 'About',
       paragraphs: [
-        'As an independent consultant based in Lyon, I have supported organizations of all sizes for more than 22 years — growing SMEs, mid-size companies and international groups — on their transformation, organization and change-management projects.',
+        'Based in Lyon, I am an independent consultant with more than 22 years of experience supporting organizations of every size — growing SMEs, mid-market companies and international groups — on transformation, organization and change-management projects.',
         'I work with executive committees as well as field teams, on large-scale transformations and targeted operational initiatives.'
       ],
       cta: 'Learn more about my background'
@@ -325,7 +325,7 @@ export const translations = {
       eyebrow: 'Areas of expertise',
       title: 'From strategy to operations, without artificial boundaries.',
       note:
-        'For large-scale programs, I also work as part of a team with external partners, depending on the needs of the assignment.'
+        'For large-scale programs, I can also work as part of a team with external partners, depending on the needs of the assignment.'
     },
     services: [
       {
@@ -334,10 +334,10 @@ export const translations = {
         short: 'Structure, steer, engage.',
         illustration: '/assets/illustrations/operational-support.png',
         description:
-          'Structuring and steering transformation projects, narrative and storytelling, and implementation of change-management mechanisms. Practical support from initial framing through field deployment.',
+          'Structuring and steering transformation projects, shaping the narrative and storytelling, and setting up change-management mechanisms. Practical support from initial framing through field implementation.',
         points: [
           'Definition of the transformation trajectory and plan',
-          'Design of the narrative and change mechanisms',
+          'Design of the narrative and change-management mechanisms',
           'Day-to-day operational support',
           'Interface between project teams and stakeholders',
           'Production and formalization of key deliverables'
@@ -363,7 +363,7 @@ export const translations = {
         short: 'Make work simpler, stronger and more reliable.',
         illustration: '/assets/illustrations/operational-effectiveness.png',
         description:
-          'Optimization of processes and ways of working to gain simplicity, reliability and impact.',
+          'Improving processes and ways of working to gain simplicity, reliability and impact.',
         points: [
           'Mapping of current processes',
           'Analysis of pain points and root causes',
@@ -377,7 +377,7 @@ export const translations = {
         short: 'Align practices with ambition.',
         illustration: '/assets/illustrations/corporate-culture.png',
         description:
-          "Definition or evolution of a corporate culture to make the company more distinctive and align internal ways of working with its challenges.",
+          'Defining a corporate culture, or shifting an existing one, to make the company more distinctive and align internal ways of working with its challenges.',
         points: [
           'Quantitative and qualitative culture diagnosis',
           'Design of the target culture model',
@@ -391,7 +391,7 @@ export const translations = {
         short: 'Build buy-in around strategic topics.',
         illustration: '/assets/illustrations/mobilization-engagement.png',
         description:
-          'Design of mechanisms that mobilize an entire organization around a transformation or strategic topic.',
+          'Designing mechanisms that mobilize an entire organization around a transformation or strategic topic.',
         points: [
           'Transformation narrative and promise',
           'Mobilizing events',
@@ -404,7 +404,7 @@ export const translations = {
         title: 'Coaching & leadership development',
         short: 'Strengthen postures and cooperation.',
         illustration: '/assets/illustrations/leadership-development.png',
-        description: 'Leadership support on posture and capabilities, individually or collectively.',
+        description: 'Individual or collective leadership support focused on posture and capabilities.',
         points: [
           'Individual coaching for managers and executives',
           'Collective development programs',
@@ -424,17 +424,17 @@ export const translations = {
       [
         '01',
         'Rigor',
-        'Structured approach, proven methods, carefully crafted deliverables, total commitment... I know what you are entitled to expect from an advisory engagement. With 16 years spent in consulting firms, I support you with the know-how and way of working expected from the consulting profession.'
+        'A structured approach, proven methods, carefully crafted deliverables, total commitment... I know what you are entitled to expect from an advisory engagement. After 16 years in consulting firms, I bring the know-how and professional standards the consulting profession requires.'
       ],
       [
         '02',
         'Respect',
-        'Respect for employees — that goes without saying — but also respect for your agenda, your constraints, your pace and your perceptions. I know every assignment creates stress and additional work: I make sure to minimize both.'
+        'Respect for employees — that goes without saying — but also respect for your agenda, your constraints, your pace and your perceptions. I know every assignment creates stress and additional work: I make it a priority to minimize both.'
       ],
       [
         '03',
         'Nuance',
-        'Your projects deserve better than certainties, reflexes and commonplaces. I arrive with a method and questions as much as with answers — and I am always committed to confronting what I think I know with your own convictions and lived experience.'
+        'Your projects deserve better than certainties, reflexes and commonplaces. I arrive with a method and questions as much as with answers — and I always make a point of testing what I think I know against your own convictions and lived experience.'
       ],
       [
         '04',
@@ -448,20 +448,20 @@ export const translations = {
       intro: 'Client names remain confidential.'
     },
     references: [
-      ['Tourism & Hospitality', 'Definition of a new managerial model linked to a renewed corporate culture'],
+      ['Tourism & Hospitality', 'Definition of a new management model aligned with the renewed corporate culture'],
       ['Employee benefits', 'Design of a corporate culture and deployment across 29 countries'],
       [
         'Pharmaceutical industry',
         'Deployment of a company-wide workload initiative involving more than 1,000 employees'
       ],
-      ['Pharmaceutical industry', 'Redesign of the Sales Administration department'],
+      ['Pharmaceutical industry', 'Redesign of the Sales Administration function'],
       [
         'HR solutions',
-        'Change Management workstream lead as part of a global redesign of Middle Office activities'
+        'Change-management workstream lead for the global redesign of Middle Office activities'
       ],
       [
         'Engineering consulting',
-        'Support for a fast-growing startup: ambition formalization and roadmap'
+        'Support for a fast-growing startup: formalizing the ambition and roadmap'
       ],
       [
         'Pharmaceutical industry',
@@ -469,7 +469,7 @@ export const translations = {
       ],
       [
         'Transport & Mobility',
-        'Support for market opening: organization, service offering, processes and managerial culture'
+        'Support with market opening: organization, service offering, processes and management culture'
       ],
       ['Pharmaceutical industry', 'Diagnosis and optimization of the S&OP process']
     ],
@@ -478,8 +478,8 @@ export const translations = {
       title: 'Jean-Gabriel Michaud',
       role: 'Independent consultant - Lyon',
       paragraphs: [
-        'My fields of intervention are resolutely varied: strategy, organization, processes, change management, leadership development and coaching.',
-        'Since 2022, a large share of my work has focused on corporate culture, which has become my specialty... and a subject I particularly care about, because it touches every aspect of everyday work.'
+        'My areas of work are deliberately broad: strategy, organization, processes, change management, leadership development and coaching.',
+        'Since 2022, much of my work has focused on corporate culture. It has become my specialty, and a subject I am particularly drawn to because it touches every aspect of day-to-day working life.'
       ]
     },
     timeline: [
@@ -496,7 +496,7 @@ export const translations = {
     contact: {
       eyebrow: "Let's work together",
       title: 'A project, an assignment, a question?',
-      intro: 'Write to me directly to start a first conversation.',
+      intro: 'Write to me directly to open a first conversation.',
       emailCta: 'Send an email',
       copyCta: 'Copy email',
       emailLabel: 'Email',
