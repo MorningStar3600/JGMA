@@ -173,17 +173,15 @@
     display: inline-flex;
     align-items: center;
     flex: 0 0 auto;
-    width: 138px;
-    height: 54px;
-    overflow: hidden;
+    width: 132px;
+    height: 70px;
   }
 
   .brand-logo {
-    width: 138px;
+    display: block;
+    width: 132px;
     height: auto;
     object-fit: contain;
-    transform: translateY(-10px);
-    transform-origin: center;
     filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.18));
   }
 
@@ -461,7 +459,7 @@
   }
 
   .footer-logo {
-    width: 120px;
+    width: 150px;
     height: auto;
     object-fit: contain;
     opacity: 0.95;
