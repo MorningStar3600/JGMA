@@ -5,6 +5,7 @@ export const site = {
   location: 'Lyon, France',
   linkedin: 'https://www.linkedin.com/in/jean-gabriel-michaud-11b0592',
   logo: '/assets/jgm-advisory-logo.png',
+  aboutPortrait: '/assets/jgm-about-portrait.png',
   portrait: '/assets/jean-gabriel-michaud.webp'
 };
 
@@ -39,7 +40,8 @@ export const translations = {
       sendEmailLabel: 'Envoyer un email à Jean-Gabriel Michaud',
       copyEmailLabel: "Copier l'adresse email",
       linkedinLabel: 'Profil LinkedIn de Jean-Gabriel Michaud, ouvre un nouvel onglet',
-      portraitAlt: 'Portrait de Jean-Gabriel Michaud'
+      portraitAlt: 'Portrait de Jean-Gabriel Michaud',
+      aboutPortraitAlt: 'Portrait illustré de Jean-Gabriel Michaud'
     },
     navItems: [
       ['Offre', '#offre'],
@@ -51,11 +53,12 @@ export const translations = {
     hero: {
       eyebrow: 'Conseil indépendant à Lyon',
       title: 'JGM Advisory',
-      subtitle: "Conseil en transformation, organisation et culture d'entreprise",
+      subtitleLead: "J'accompagne de bout en bout vos transformations",
+      subtitleAccent: 'à forts enjeux organisationnels et humains.',
       intro:
-        "J'accompagne les organisations de bout en bout sur leurs transformations à forts enjeux organisationnels et humains.",
-      primaryCta: 'Démarrer un échange',
-      secondaryCta: 'Voir les expertises'
+        'Réorganisation, processus, modes de fonctionnement, management — des sujets complexes traités avec rigueur et engagement.',
+      primaryCta: 'Travaillons ensemble',
+      secondaryCta: 'Références'
     },
     proofPoints: [
       { value: '22 ans', suffix: "d'expérience", label: 'en conseil et transformation' },
@@ -64,36 +67,39 @@ export const translations = {
     ],
     about: {
       eyebrow: 'À propos',
-      title: 'Une pratique de conseil exigeante, directe et proche du terrain.',
       paragraphs: [
-        "Consultant indépendant basé à Lyon, j'accompagne depuis plus de 22 ans des organisations de toutes tailles: PME en croissance, ETI et grands groupes internationaux.",
+        "Consultant indépendant basé à Lyon, j'accompagne depuis plus de 22 ans des organisations de toutes tailles — PME en croissance, ETI et grands groupes internationaux — sur leurs projets de transformation, d'organisation et de conduite du changement.",
         "J'interviens aussi bien auprès des Comités de Direction que des équipes terrain, sur des transformations de grande ampleur comme sur des chantiers opérationnels ciblés."
       ],
       cta: 'En savoir plus sur le parcours'
     },
     offer: {
       eyebrow: "Domaines d'intervention",
-      title: "De la stratégie à l'opérationnel, sans frontière de périmètre."
+      title: "De la stratégie à l'opérationnel, sans frontière de périmètre.",
+      note:
+        "Pour les programmes de grande envergure, j'interviens également en équipe avec des partenaires externes, selon les besoins de la mission."
     },
     services: [
       {
         number: '01',
         title: 'Accompagnement opérationnel',
         short: 'Structurer, piloter, embarquer.',
+        illustration: '/assets/illustrations/operational-support.png',
         description:
-          "Structuration et pilotage de projets de transformation, narratif, storytelling et dispositifs de conduite du changement. Un accompagnement concret, du cadrage initial à la mise en oeuvre terrain.",
+          'Structuration et pilotage de projets de transformation, narratif et storytelling, mise en place de dispositifs de conduite du changement. Un accompagnement concret, du cadrage initial à la mise en œuvre terrain.',
         points: [
-          'Trajectoire et plan de transformation',
-          'Narratif et dispositifs de changement',
+          'Définition de la trajectoire et du plan de transformation',
+          'Conception du narratif et des dispositifs de changement',
           'Accompagnement opérationnel au jour le jour',
           'Interface entre équipes projet et parties prenantes',
-          'Formalisation des livrables clés'
+          'Production et formalisation des livrables clés'
         ]
       },
       {
         number: '02',
         title: "Design d'organisation",
         short: 'Repenser les rôles et la gouvernance.',
+        illustration: '/assets/illustrations/organization-design.png',
         description: 'Création ou refonte de Directions, Départements ou Services.',
         points: [
           'Diagnostic organisationnel',
@@ -107,6 +113,7 @@ export const translations = {
         number: '03',
         title: 'Efficacité opérationnelle',
         short: 'Faire mieux, plus simple, plus fiable.',
+        illustration: '/assets/illustrations/operational-effectiveness.png',
         description:
           'Optimisation des processus et des modes de fonctionnement de travail pour gagner en simplicité, fiabilité et impact.',
         points: [
@@ -120,6 +127,7 @@ export const translations = {
         number: '04',
         title: "Culture d'entreprise",
         short: 'Aligner pratiques et ambition.',
+        illustration: '/assets/illustrations/corporate-culture.png',
         description:
           "Définition d'une culture d'entreprise, ou inflexion de la culture existante, pour singulariser l'entreprise et aligner les modes de fonctionnement internes avec ses enjeux.",
         points: [
@@ -133,6 +141,7 @@ export const translations = {
         number: '05',
         title: 'Mobilisation & engagement',
         short: "Créer l'adhésion autour des sujets stratégiques.",
+        illustration: '/assets/illustrations/mobilization-engagement.png',
         description:
           "Design de dispositifs visant à mobiliser toute une organisation autour d'une transformation ou d'un sujet stratégique.",
         points: [
@@ -146,6 +155,7 @@ export const translations = {
         number: '06',
         title: 'Coaching & développement managérial',
         short: 'Renforcer les postures et les coopérations.',
+        illustration: '/assets/illustrations/leadership-development.png',
         description: 'Accompagnement managérial sur la posture et les compétences, individuel ou collectif.',
         points: [
           'Coaching individuel de managers et dirigeants',
@@ -159,29 +169,29 @@ export const translations = {
       eyebrow: 'Mon approche',
       titleLead: 'Pas seulement une méthode.',
       titleGold: "Une façon d'être.",
-      intro:
-        'Ce qui guide chaque mission: la clarté, le respect du terrain et une exigence de conseil sans posture inutile.'
+      introLead: 'Ce qui me guide, à chacune de mes missions.',
+      introGold: ''
     },
     approach: [
       [
         '01',
         'Rigueur',
-        'Une démarche structurée, des méthodes éprouvées, des livrables soignés et un engagement total.'
+        "Démarche structurée, méthodes éprouvées, livrables soignés, engagement total... je sais ce que vous êtes en droit d'attendre d'une prestation de conseil. Fort de mes 16 années passées en cabinet, je vous accompagne en m'appuyant sur un savoir-faire et un savoir-être conformes aux exigences du métier du conseil."
       ],
       [
         '02',
         'Respect',
-        'Respect des collaborateurs, mais aussi de votre agenda, de vos contraintes, de votre rythme et de vos perceptions.'
+        'Respect des collaborateurs — cela va sans dire ! — mais également respect de votre agenda, de vos contraintes, de votre rythme et de vos perceptions. Je sais que toute mission crée du stress et du travail supplémentaire : je fais en sorte de les minimiser.'
       ],
       [
         '03',
         'Nuance',
-        "Vos projets méritent mieux que des certitudes. La méthode compte autant que les questions et l'écoute du terrain."
+        "Vos projets méritent mieux que des certitudes, des réflexes et des lieux communs. J'arrive avec une méthode et des questions autant qu'avec des réponses — et j'ai à cœur, toujours, de confronter ce que je crois savoir avec vos propres convictions et votre vécu."
       ],
       [
         '04',
         'Simplicité',
-        "Une façon de travailler fondée sur l'humilité, la disponibilité et la clarté, pour ne jamais ajouter de complexité à la complexité."
+        "Je crois à la force de la simplicité — celle qui se traduit dans les relations de travail par la politesse, l'humilité, la disponibilité, la tempérance et la bonne humeur. Celle qui remet les choses en perspective et qui invite à prendre du recul... pour ne jamais ajouter de complexité à la complexité."
       ]
     ],
     referencesSection: {
@@ -223,8 +233,8 @@ export const translations = {
       title: 'Jean-Gabriel Michaud',
       role: 'Consultant indépendant - Lyon',
       paragraphs: [
-        "Mes domaines d'intervention sont variés: stratégie, organisation, processus, conduite du changement, développement managérial, coaching. Depuis 2022, une grande partie de mes missions porte sur la culture d'entreprise, dont j'ai fait ma spécialité.",
-        "Pour les programmes de grande envergure, j'interviens également aux côtés de partenaires externes - cabinets spécialisés ou consultants indépendants - selon les besoins spécifiques de la mission."
+        "Mes domaines d'intervention sont résolument variés : stratégie, organisation, processus, conduite du changement, développement managérial, coaching.",
+        "Depuis 2022, une grande partie de mes missions porte sur la culture d'entreprise, dont j'ai fait ma spécialité… et un sujet que j'affectionne particulièrement, en ceci qu'il touche à tous les aspects du quotidien de travail."
       ]
     },
     timeline: [
@@ -278,7 +288,8 @@ export const translations = {
       sendEmailLabel: 'Send an email to Jean-Gabriel Michaud',
       copyEmailLabel: 'Copy email address',
       linkedinLabel: "Jean-Gabriel Michaud's LinkedIn profile, opens in a new tab",
-      portraitAlt: 'Portrait of Jean-Gabriel Michaud'
+      portraitAlt: 'Portrait of Jean-Gabriel Michaud',
+      aboutPortraitAlt: 'Illustrated portrait of Jean-Gabriel Michaud'
     },
     navItems: [
       ['Expertise', '#offre'],
@@ -290,11 +301,12 @@ export const translations = {
     hero: {
       eyebrow: 'Independent advisory in Lyon',
       title: 'JGM Advisory',
-      subtitle: 'Transformation, organization and corporate culture advisory',
+      subtitleLead: 'I support your transformations from end to end',
+      subtitleAccent: 'when organizational and human stakes are high.',
       intro:
-        'I support organizations end to end through transformations with significant organizational and human stakes.',
-      primaryCta: 'Start a conversation',
-      secondaryCta: 'Explore expertise'
+        'Reorganization, processes, ways of working, management — complex topics handled with rigor and commitment.',
+      primaryCta: "Let's work together",
+      secondaryCta: 'References'
     },
     proofPoints: [
       { value: '22 years', suffix: 'of experience', label: 'in advisory and transformation' },
@@ -303,36 +315,39 @@ export const translations = {
     ],
     about: {
       eyebrow: 'About',
-      title: 'An exacting advisory practice, direct and close to the field.',
       paragraphs: [
-        'As an independent consultant based in Lyon, I have supported organizations of all sizes for more than 22 years: growing SMEs, mid-size companies and international groups.',
+        'As an independent consultant based in Lyon, I have supported organizations of all sizes for more than 22 years — growing SMEs, mid-size companies and international groups — on their transformation, organization and change-management projects.',
         'I work with executive committees as well as field teams, on large-scale transformations and targeted operational initiatives.'
       ],
       cta: 'Learn more about my background'
     },
     offer: {
       eyebrow: 'Areas of expertise',
-      title: 'From strategy to operations, without artificial boundaries.'
+      title: 'From strategy to operations, without artificial boundaries.',
+      note:
+        'For large-scale programs, I also work as part of a team with external partners, depending on the needs of the assignment.'
     },
     services: [
       {
         number: '01',
         title: 'Operational transformation support',
         short: 'Structure, steer, engage.',
+        illustration: '/assets/illustrations/operational-support.png',
         description:
-          'Structuring and steering transformation programs, narratives, storytelling and change-management systems. Practical support from initial framing through field deployment.',
+          'Structuring and steering transformation projects, narrative and storytelling, and implementation of change-management mechanisms. Practical support from initial framing through field deployment.',
         points: [
-          'Transformation roadmap and trajectory',
-          'Narrative and change-management mechanisms',
+          'Definition of the transformation trajectory and plan',
+          'Design of the narrative and change mechanisms',
           'Day-to-day operational support',
           'Interface between project teams and stakeholders',
-          'Formalization of key deliverables'
+          'Production and formalization of key deliverables'
         ]
       },
       {
         number: '02',
         title: 'Organization design',
         short: 'Redesign roles and governance.',
+        illustration: '/assets/illustrations/organization-design.png',
         description: 'Creation or redesign of departments, functions or services.',
         points: [
           'Organizational diagnosis',
@@ -346,6 +361,7 @@ export const translations = {
         number: '03',
         title: 'Operational effectiveness',
         short: 'Make work simpler, stronger and more reliable.',
+        illustration: '/assets/illustrations/operational-effectiveness.png',
         description:
           'Optimization of processes and ways of working to gain simplicity, reliability and impact.',
         points: [
@@ -359,6 +375,7 @@ export const translations = {
         number: '04',
         title: 'Corporate culture',
         short: 'Align practices with ambition.',
+        illustration: '/assets/illustrations/corporate-culture.png',
         description:
           "Definition or evolution of a corporate culture to make the company more distinctive and align internal ways of working with its challenges.",
         points: [
@@ -372,6 +389,7 @@ export const translations = {
         number: '05',
         title: 'Mobilization & engagement',
         short: 'Build buy-in around strategic topics.',
+        illustration: '/assets/illustrations/mobilization-engagement.png',
         description:
           'Design of mechanisms that mobilize an entire organization around a transformation or strategic topic.',
         points: [
@@ -385,6 +403,7 @@ export const translations = {
         number: '06',
         title: 'Coaching & leadership development',
         short: 'Strengthen postures and cooperation.',
+        illustration: '/assets/illustrations/leadership-development.png',
         description: 'Leadership support on posture and capabilities, individually or collectively.',
         points: [
           'Individual coaching for managers and executives',
@@ -398,25 +417,29 @@ export const translations = {
       eyebrow: 'My approach',
       titleLead: 'Not just a method.',
       titleGold: 'A way of being.',
-      intro:
-        'What guides every assignment: clarity, respect for the field and a demanding advisory standard without unnecessary posturing.'
+      introLead: 'What guides every assignment.',
+      introGold: ''
     },
     approach: [
-      ['01', 'Rigor', 'A structured approach, proven methods, carefully crafted deliverables and total commitment.'],
+      [
+        '01',
+        'Rigor',
+        'Structured approach, proven methods, carefully crafted deliverables, total commitment... I know what you are entitled to expect from an advisory engagement. With 16 years spent in consulting firms, I support you with the know-how and way of working expected from the consulting profession.'
+      ],
       [
         '02',
         'Respect',
-        'Respect for employees, but also for your agenda, your constraints, your pace and your perceptions.'
+        'Respect for employees — that goes without saying — but also respect for your agenda, your constraints, your pace and your perceptions. I know every assignment creates stress and additional work: I make sure to minimize both.'
       ],
       [
         '03',
         'Nuance',
-        'Your projects deserve better than certainty. The method matters as much as the questions and listening to the field.'
+        'Your projects deserve better than certainties, reflexes and commonplaces. I arrive with a method and questions as much as with answers — and I am always committed to confronting what I think I know with your own convictions and lived experience.'
       ],
       [
         '04',
         'Simplicity',
-        'A way of working based on humility, availability and clarity, so complexity is never added to complexity.'
+        'I believe in the strength of simplicity — the kind that shows up in working relationships through courtesy, humility, availability, temperance and good humor. The kind that puts things into perspective and invites everyone to step back... so complexity is never added to complexity.'
       ]
     ],
     referencesSection: {
@@ -455,8 +478,8 @@ export const translations = {
       title: 'Jean-Gabriel Michaud',
       role: 'Independent consultant - Lyon',
       paragraphs: [
-        'My fields of intervention are varied: strategy, organization, processes, change management, leadership development and coaching. Since 2022, a large share of my work has focused on corporate culture, which has become my specialty.',
-        'For large-scale programs, I also work alongside external partners - specialist firms or independent consultants - depending on the specific needs of the assignment.'
+        'My fields of intervention are resolutely varied: strategy, organization, processes, change management, leadership development and coaching.',
+        'Since 2022, a large share of my work has focused on corporate culture, which has become my specialty... and a subject I particularly care about, because it touches every aspect of everyday work.'
       ]
     },
     timeline: [

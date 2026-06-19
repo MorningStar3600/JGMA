@@ -118,35 +118,75 @@
     filter: blur(0);
   }
 
-  .noise {
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 44px 44px;
-  }
-
   .hero-stage {
     --spotlight-x: 72%;
     --spotlight-y: 42%;
+    background:
+      linear-gradient(135deg, rgba(7, 16, 31, 1) 0%, rgba(11, 25, 45, 1) 48%, rgba(7, 16, 31, 1) 100%);
     min-height: calc(100svh - 130px);
+  }
+
+  .hero-system {
+    overflow: hidden;
+    background:
+      linear-gradient(115deg, rgba(7, 16, 31, 0.96), rgba(12, 29, 52, 0.92) 54%, rgba(7, 16, 31, 0.98));
+  }
+
+  .hero-system::before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background:
+      radial-gradient(circle at 9% 31%, rgba(237, 206, 131, 0.58) 0 2px, transparent 3px),
+      radial-gradient(circle at 18% 67%, rgba(237, 206, 131, 0.46) 0 2px, transparent 3px),
+      radial-gradient(circle at 43% 43%, rgba(237, 206, 131, 0.56) 0 2px, transparent 3px),
+      radial-gradient(circle at 61% 28%, rgba(237, 206, 131, 0.4) 0 2px, transparent 3px),
+      radial-gradient(circle at 78% 61%, rgba(237, 206, 131, 0.54) 0 2px, transparent 3px),
+      radial-gradient(circle at 92% 38%, rgba(237, 206, 131, 0.44) 0 2px, transparent 3px);
+    opacity: 0.84;
+  }
+
+  .hero-system__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(237, 206, 131, 0.34) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(237, 206, 131, 0.34) 1px, transparent 1px),
+      linear-gradient(rgba(237, 206, 131, 0.14) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(237, 206, 131, 0.14) 1px, transparent 1px);
+    background-position: center;
+    background-size:
+      96px 96px,
+      96px 96px,
+      24px 24px,
+      24px 24px;
+    mask-image:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.52), #000 18%, #000 84%, rgba(0, 0, 0, 0.68)),
+      linear-gradient(180deg, rgba(0, 0, 0, 0.42), #000 16%, #000 90%, rgba(0, 0, 0, 0.62));
+    opacity: 0.96;
+    filter: drop-shadow(0 0 8px rgba(237, 206, 131, 0.08));
   }
 
   .hero-spotlight {
     background:
-      radial-gradient(circle at var(--spotlight-x) var(--spotlight-y), rgba(237, 206, 131, 0.16), transparent 280px),
-      linear-gradient(180deg, transparent, rgba(7, 16, 31, 0.36));
+      radial-gradient(circle at var(--spotlight-x) var(--spotlight-y), rgba(237, 206, 131, 0.1), transparent 300px),
+      linear-gradient(180deg, transparent, rgba(7, 16, 31, 0.44));
     transition: opacity 300ms ease;
-  }
-
-  .hero-portrait {
-    transform: scale(1.03);
-    will-change: transform;
   }
 
   .hero-reveal {
     opacity: 0;
     transform: translateY(22px);
     filter: blur(10px);
+  }
+
+  .about-portrait {
+    width: min(210px, 68vw);
+    max-height: 360px;
+    object-fit: contain;
+    object-position: top left;
+    opacity: 0.88;
+    filter: drop-shadow(0 18px 34px rgba(215, 180, 106, 0.12));
   }
 
   body.is-ready .hero-reveal {
@@ -182,6 +222,7 @@
     width: 132px;
     height: auto;
     object-fit: contain;
+    transform: translateX(-17px);
     filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.18));
   }
 
@@ -297,6 +338,21 @@
     box-shadow: 0 16px 42px rgba(7, 16, 31, 0.08);
   }
 
+  .reference-icon-wrap {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    width: 3.25rem;
+  }
+
+  .reference-icon {
+    width: 3rem;
+    height: 3rem;
+    object-fit: contain;
+    opacity: 0.9;
+  }
+
   .service-tab {
     position: relative;
     overflow: hidden;
@@ -386,6 +442,7 @@
   [data-service-detail] {
     position: relative;
     overflow: hidden;
+    isolation: isolate;
     touch-action: pan-y;
   }
 
@@ -395,13 +452,34 @@
     content: "";
     background: radial-gradient(circle at 18% 0%, rgba(237, 206, 131, 0.16), transparent 240px);
     pointer-events: none;
+    z-index: 0;
   }
 
   .service-detail-content {
     position: relative;
+    z-index: 2;
     animation: panelIn 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
     transform: translateX(var(--swipe-offset, 0));
     transition: transform 180ms ease;
+  }
+
+  .service-detail-content--with-illustration {
+    padding-bottom: 8.75rem;
+  }
+
+  .service-detail-illustration {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: center bottom;
+    opacity: 0.58;
+    pointer-events: none;
+    filter: drop-shadow(0 12px 30px rgba(215, 180, 106, 0.16));
   }
 
   [data-service-detail].is-swiping .service-detail-content {

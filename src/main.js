@@ -33,7 +33,7 @@ function languageOptions(locale) {
 
 function serviceDetail(service, ui) {
   return `
-    <div class="service-detail-content">
+    <div class="service-detail-content${service.illustration ? ' service-detail-content--with-illustration' : ''}">
       <span class="service-progress-label" aria-hidden="true">${ui.autoScroll}</span>
       <p class="font-display text-3xl leading-none text-gold-400">${service.number}</p>
       <h3 class="mt-3 font-display text-3xl font-semibold leading-none text-white md:text-[2.55rem]">${service.title}</h3>
@@ -50,10 +50,51 @@ function serviceDetail(service, ui) {
           .join('')}
       </ul>
     </div>
+    ${
+      service.illustration
+        ? `<img class="service-detail-illustration" src="${service.illustration}" alt="" aria-hidden="true" loading="lazy" />`
+        : ''
+    }
     <div class="service-progress" aria-hidden="true">
       <span data-service-progress></span>
     </div>
   `;
+}
+
+const referenceIcons = {
+  company: '/assets/reference-icons/company.png',
+  engineering: '/assets/reference-icons/engineering.png',
+  medical: '/assets/reference-icons/medical.png',
+  mobility: '/assets/reference-icons/mobility.png'
+};
+
+function normalizeText(value) {
+  return value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+}
+
+function referenceIconForSector(sector) {
+  const normalizedSector = normalizeText(sector);
+
+  if (normalizedSector.includes('pharmaceutique') || normalizedSector.includes('pharmaceutical')) {
+    return referenceIcons.medical;
+  }
+
+  if (
+    normalizedSector.includes('transport') ||
+    normalizedSector.includes('mobilite') ||
+    normalizedSector.includes('mobility')
+  ) {
+    return referenceIcons.mobility;
+  }
+
+  if (normalizedSector.includes('ingenierie') || normalizedSector.includes('engineering')) {
+    return referenceIcons.engineering;
+  }
+
+  return referenceIcons.company;
 }
 
 function render() {
@@ -65,41 +106,44 @@ function render() {
   app.innerHTML = `
     <a class="skip-link" href="#top">${content.ui.skipLink}</a>
     <div class="fixed left-0 top-0 z-[60] h-px w-full origin-left scale-x-0 bg-gradient-to-r from-gold-300 via-gold-500 to-white/70" data-scroll-progress aria-hidden="true"></div>
-    <header class="fixed inset-x-0 top-0 z-50 border-b border-gold-500/[0.15] bg-navy-950/75 px-5 backdrop-blur-xl transition md:px-12" data-header>
-      <div class="mx-auto flex h-[70px] max-w-[1320px] items-center justify-between">
-        <a href="#top" class="brand-link text-white no-underline" aria-label="JGM Advisory">
+    <header class="fixed inset-x-0 top-0 z-50 border-b border-gold-500/[0.15] bg-navy-950/75 backdrop-blur-xl transition" data-header>
+      <div class="relative h-[70px] w-full">
+        <a href="#top" class="brand-link absolute left-3 top-0 text-white no-underline md:left-5" aria-label="JGM Advisory">
           <img class="brand-logo" src="${site.logo}" alt="JGM Advisory" width="5625" height="3750" />
         </a>
-        <button class="grid h-11 w-11 place-items-center rounded-md border border-white/20 text-white md:hidden" type="button" data-menu-toggle aria-label="${content.ui.menuOpen}" aria-expanded="false">
-          <span class="relative block h-3 w-5 before:absolute before:left-0 before:top-0 before:h-px before:w-5 before:bg-current before:transition after:absolute after:bottom-0 after:left-0 after:h-px after:w-5 after:bg-current after:transition"></span>
-        </button>
-        <nav class="nav-panel pointer-events-none fixed left-3 right-3 top-[78px] grid translate-y-[-10px] gap-1 rounded-lg border border-gold-500/20 bg-navy-950/95 p-2 opacity-0 shadow-deep transition md:pointer-events-auto md:static md:flex md:items-center md:translate-y-0 md:gap-5 md:border-0 md:bg-transparent md:p-0 md:opacity-100 md:shadow-none lg:gap-8" aria-label="${content.ui.navLabel}">
+        <nav class="nav-panel pointer-events-none fixed left-3 right-3 top-[78px] grid translate-y-[-10px] gap-1 rounded-lg border border-gold-500/20 bg-navy-950/95 p-2 opacity-0 shadow-deep transition md:pointer-events-auto md:absolute md:left-1/2 md:right-auto md:top-1/2 md:flex md:-translate-x-1/2 md:-translate-y-1/2 md:items-center md:gap-5 md:border-0 md:bg-transparent md:p-0 md:opacity-100 md:shadow-none lg:gap-8" aria-label="${content.ui.navLabel}">
           ${content.navItems
             .map(
               ([label, href]) =>
                 `<a class="nav-link${href === '#contact' ? ' nav-link--cta' : ''} rounded-md px-4 py-3 text-sm font-semibold text-white/70 no-underline transition hover:bg-white/[0.08] hover:text-white md:px-0 md:py-0 md:hover:bg-transparent" href="${href}" data-nav-link="${href}"><span>${label}</span></a>`
             )
             .join('')}
-          <div class="language-switcher">
-            <label class="sr-only" for="language-select">${content.ui.languageLabel}</label>
-            <select class="language-select" id="language-select" data-language-select aria-label="${content.ui.languageLabel}">
-              ${languageOptions(locale)}
-            </select>
-          </div>
         </nav>
+        <div class="language-switcher absolute right-20 top-1/2 -translate-y-1/2 md:right-8">
+          <label class="sr-only" for="language-select">${content.ui.languageLabel}</label>
+          <select class="language-select" id="language-select" data-language-select aria-label="${content.ui.languageLabel}">
+            ${languageOptions(locale)}
+          </select>
+        </div>
+        <button class="absolute right-5 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-md border border-white/20 text-white md:hidden" type="button" data-menu-toggle aria-label="${content.ui.menuOpen}" aria-expanded="false">
+          <span class="relative block h-3 w-5 before:absolute before:left-0 before:top-0 before:h-px before:w-5 before:bg-current before:transition after:absolute after:bottom-0 after:left-0 after:h-px after:w-5 after:bg-current after:transition"></span>
+        </button>
       </div>
     </header>
 
     <main id="top" tabindex="-1" aria-label="${content.ui.mainLabel}">
       <section class="hero-stage relative isolate flex items-center overflow-hidden bg-navy-950 px-6 pb-14 pt-28 text-white md:px-12 md:pb-16 md:pt-32" data-hero>
-        <img class="hero-portrait absolute inset-0 -z-20 h-full w-full object-cover object-[70%_center] opacity-44 md:object-right" src="${site.portrait}" alt="" aria-hidden="true" />
-        <div class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(7,16,31,0.98)_0%,rgba(7,16,31,0.9)_45%,rgba(7,16,31,0.38)_100%)]"></div>
-        <div class="absolute inset-0 -z-10 noise opacity-60"></div>
+        <div class="hero-system absolute inset-0 -z-20" aria-hidden="true">
+          <span class="hero-system__grid"></span>
+        </div>
+        <div class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(7,16,31,0.86)_0%,rgba(7,16,31,0.68)_48%,rgba(7,16,31,0.34)_100%)]"></div>
         <div class="hero-spotlight absolute inset-0 -z-10"></div>
         <div class="site-shell">
           <p class="eyebrow hero-reveal">${content.hero.eyebrow}</p>
-          <h1 class="display-title hero-reveal max-w-3xl text-[4rem] text-white sm:text-[5rem] md:text-[6.4rem]">${content.hero.title}</h1>
-          <p class="hero-reveal mt-5 max-w-2xl font-display text-3xl leading-tight text-gold-300 md:text-4xl">${content.hero.subtitle}</p>
+          <h1 class="hero-reveal mt-5 max-w-4xl font-display text-[2.65rem] font-semibold leading-[1.02] sm:text-[3.35rem] md:text-[4.15rem]">
+            <span class="block text-white">${content.hero.subtitleLead}</span>
+            <span class="block text-gold-300">${content.hero.subtitleAccent}</span>
+          </h1>
           <p class="hero-reveal mt-7 max-w-2xl text-lg leading-8 text-white/75">${content.hero.intro}</p>
           <div class="hero-reveal mt-10 flex flex-col gap-3 sm:flex-row">
             <a class="premium-button premium-button-primary" href="#contact">${content.hero.primaryCta}</a>
@@ -123,14 +167,18 @@ function render() {
         </ul>
       </section>
 
-      <section class="site-shell grid gap-12 py-20 md:grid-cols-[0.9fr_1.1fr] md:gap-20 md:py-28" data-section>
-        <div class="reveal">
-          <p class="eyebrow eyebrow-on-light">${content.about.eyebrow}</p>
-          <h2 class="display-title text-5xl text-navy-950 md:text-6xl">${content.about.title}</h2>
-        </div>
-        <div class="reveal space-y-6 text-lg leading-8 text-slate-600" style="--reveal-delay: 120ms">
-          ${content.about.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join('')}
-          <a class="light-button premium-button mt-2" href="#parcours">${content.about.cta}</a>
+      <section class="site-shell py-16 md:py-24" data-section>
+        <div class="reveal grid gap-8 border-y border-navy-900/10 py-10 md:grid-cols-[220px_1fr] md:gap-14 md:py-14">
+          <div>
+            <p class="eyebrow eyebrow-on-light pt-1">${content.about.eyebrow}</p>
+            <img class="about-portrait mt-7" src="${site.aboutPortrait}" alt="${content.ui.aboutPortraitAlt}" loading="lazy" width="940" height="1672" />
+          </div>
+          <div class="max-w-4xl">
+            <div class="space-y-6 font-display text-[1.55rem] font-medium leading-[1.35] text-navy-950 sm:text-[1.8rem] md:text-[2.05rem]">
+              ${content.about.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join('')}
+            </div>
+            <a class="light-button premium-button mt-8" href="#parcours">${content.about.cta}</a>
+          </div>
         </div>
       </section>
 
@@ -161,23 +209,27 @@ function render() {
             ${serviceDetail(content.services[0], content.ui)}
           </article>
         </div>
+        <p class="reveal mt-7 max-w-3xl border-l border-gold-500/50 pl-5 text-sm leading-6 text-slate-600" style="--reveal-delay: 220ms">${content.offer.note}</p>
       </section>
 
       <section class="bg-navy-950 px-6 py-20 text-white md:px-12 md:py-28" id="approche" data-section>
         <div class="site-shell">
           <div class="reveal max-w-3xl">
             <p class="eyebrow">${content.approachSection.eyebrow}</p>
-            <h2 class="display-title text-5xl text-white md:text-6xl">${content.approachSection.titleLead} <span class="text-gold-300">${content.approachSection.titleGold}</span></h2>
-            <p class="mt-6 text-lg leading-8 text-white/[0.64]">${content.approachSection.intro}</p>
+            <h2 class="display-title text-5xl text-white md:text-6xl">${content.approachSection.titleLead}${content.approachSection.titleGold ? ` <span class="text-gold-300">${content.approachSection.titleGold}</span>` : ''}</h2>
+            <p class="mt-6 text-lg leading-8 text-white/[0.64]">${content.approachSection.introLead}${content.approachSection.introGold ? ` <span class="text-gold-300">${content.approachSection.introGold}</span>` : ''}</p>
           </div>
-          <div class="mt-12 grid border-l border-t border-white/[0.12] md:grid-cols-2 xl:grid-cols-4">
+          <div class="mt-12 grid border-l border-t border-white/[0.12] md:grid-cols-2">
             ${content.approach
               .map(
                 ([number, title, text]) => `
-                  <article class="reveal min-h-[300px] border-b border-r border-white/[0.12] bg-white/[0.025] p-7" style="--reveal-delay: ${Number(number) * 80}ms">
-                    <span class="font-display text-5xl text-gold-300">${number}</span>
-                    <h3 class="mt-10 font-display text-4xl font-semibold leading-none text-white">${title}</h3>
-                    <p class="mt-5 leading-7 text-white/[0.62]">${text}</p>
+                  <article class="reveal min-h-[320px] border-b border-r border-white/[0.12] bg-white/[0.03] p-7 md:p-9" style="--reveal-delay: ${Number(number) * 80}ms">
+                    <div class="flex items-start justify-between gap-6">
+                      <span class="font-display text-4xl text-gold-300">${number}</span>
+                      <span class="mt-5 h-px flex-1 bg-gradient-to-r from-gold-300/35 to-transparent" aria-hidden="true"></span>
+                    </div>
+                    <h3 class="mt-8 font-display text-3xl font-semibold leading-none text-white md:text-[2.15rem]">${title}</h3>
+                    <p class="mt-5 max-w-[38rem] text-[0.98rem] leading-8 text-white/[0.76]">${text}</p>
                   </article>
                 `
               )
@@ -197,7 +249,12 @@ function render() {
             .map(
               ([sector, mission], index) => `
                 <article class="reference-card reveal min-h-[210px] rounded-lg border border-navy-900/10 bg-white p-7 shadow-[0_12px_34px_rgba(7,16,31,0.06)]" style="--reveal-delay: ${(index % 3) * 80}ms">
-                  <p class="m-0 font-bold text-gold-700">${sector}</p>
+                  <div class="flex items-start justify-between gap-5">
+                    <p class="m-0 font-bold text-gold-700">${sector}</p>
+                    <span class="reference-icon-wrap" aria-hidden="true">
+                      <img class="reference-icon" src="${referenceIconForSector(sector)}" alt="" loading="lazy" />
+                    </span>
+                  </div>
                   <h3 class="mt-5 text-base font-medium leading-7 text-navy-950">${mission}</h3>
                 </article>
               `
@@ -217,8 +274,9 @@ function render() {
         <div class="reveal" style="--reveal-delay: 120ms">
           <p class="eyebrow eyebrow-on-light">${content.profile.eyebrow}</p>
           <h2 class="display-title text-5xl text-navy-950 md:text-6xl">${content.profile.title}</h2>
-          <p class="mt-7 text-lg leading-8 text-slate-600">${content.profile.paragraphs[0]}</p>
-          <p class="mt-7 border-l-4 border-gold-500 bg-white p-5 text-slate-700 shadow-[0_10px_26px_rgba(7,16,31,0.06)]">${content.profile.paragraphs[1]}</p>
+          <div class="mt-7 space-y-6 text-lg leading-8 text-slate-600">
+            ${content.profile.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join('')}
+          </div>
           <ol class="mt-10 list-none p-0">
             ${content.timeline
               .map(
@@ -290,7 +348,6 @@ function bindInteractions() {
   const navLinks = [...document.querySelectorAll('[data-nav-link]')];
   const sections = [...document.querySelectorAll('[id][data-section]')];
   const hero = document.querySelector('[data-hero]');
-  const heroPortrait = document.querySelector('.hero-portrait');
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const serviceCycleDuration = 7200;
   let activeServiceIndex = 0;
@@ -319,9 +376,6 @@ function bindInteractions() {
       progressBar.style.transform = `scaleX(${Math.min(Math.max(progress, 0), 1)})`;
     }
 
-    if (heroPortrait && !prefersReducedMotion) {
-      heroPortrait.style.transform = `translate3d(0, ${Math.min(window.scrollY * 0.08, 42)}px, 0) scale(1.03)`;
-    }
   };
 
   const stopServiceCycle = () => {
