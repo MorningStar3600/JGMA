@@ -31,7 +31,6 @@ export const translations = {
       navLabel: 'Navigation principale',
       mainLabel: 'Contenu principal',
       languageLabel: 'Choisir la langue',
-      autoScroll: 'Défilement auto',
       serviceTabsHelp:
         "Sélectionnez un domaine d'intervention pour afficher son détail. Les flèches du clavier permettent de passer d'un domaine au suivant.",
       detailHint: 'Voir le détail',
@@ -74,7 +73,7 @@ export const translations = {
       cta: 'En savoir plus sur mon parcours'
     },
     offer: {
-      eyebrow: "Domaines d'intervention",
+      eyebrow: 'Offre de service',
       title: "De la stratégie à l'opérationnel, sans frontière de périmètre.",
       note:
         "Pour les programmes de grande envergure, j'interviens également en équipe avec des partenaires externes, selon les besoins de la mission."
@@ -197,7 +196,7 @@ export const translations = {
     referencesSection: {
       eyebrow: 'Références',
       title: 'Quelques missions réalisées au cours des 24 derniers mois.',
-      intro: 'Les noms de clients restent confidentiels.'
+      intro: ''
     },
     references: [
       [
@@ -245,7 +244,7 @@ export const translations = {
       [
         'Formation',
         'ESCP Business School - Programme Grande École, majeure Finance',
-        'Certification Coach - ESSEC Business School, formation continue 2017'
+        'Certification Coach - ESSEC Business School (formation continue – 2017)'
       ]
     ],
     contact: {
@@ -279,7 +278,6 @@ export const translations = {
       navLabel: 'Main navigation',
       mainLabel: 'Main content',
       languageLabel: 'Choose language',
-      autoScroll: 'Auto scroll',
       serviceTabsHelp:
         'Select an area of expertise to display its details. Use the arrow keys to move between areas.',
       detailHint: 'View details',
@@ -322,7 +320,7 @@ export const translations = {
       cta: 'Learn more about my background'
     },
     offer: {
-      eyebrow: 'Areas of expertise',
+      eyebrow: 'Service offering',
       title: 'From strategy to operations, without artificial boundaries.',
       note:
         'For large-scale programs, I can also work as part of a team with external partners, depending on the needs of the assignment.'
@@ -445,7 +443,7 @@ export const translations = {
     referencesSection: {
       eyebrow: 'References',
       title: 'Selected assignments completed over the past 24 months.',
-      intro: 'Client names remain confidential.'
+      intro: ''
     },
     references: [
       ['Tourism & Hospitality', 'Definition of a new management model aligned with the renewed corporate culture'],
@@ -490,7 +488,7 @@ export const translations = {
       [
         'Education',
         'ESCP Business School - Grande École program, Finance major',
-        'Certified Coach - ESSEC Business School, executive education 2017'
+        'Certified Coach - ESSEC Business School (executive education – 2017)'
       ]
     ],
     contact: {

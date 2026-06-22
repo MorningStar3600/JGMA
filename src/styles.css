@@ -486,17 +486,6 @@
     transition: none;
   }
 
-  .service-progress-label {
-    position: absolute;
-    top: 0;
-    right: 0;
-    color: rgba(237, 206, 131, 0.72);
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-
   .service-progress {
     position: absolute;
     right: 0;

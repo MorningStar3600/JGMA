@@ -34,7 +34,6 @@ function languageOptions(locale) {
 function serviceDetail(service, ui) {
   return `
     <div class="service-detail-content${service.illustration ? ' service-detail-content--with-illustration' : ''}">
-      <span class="service-progress-label" aria-hidden="true">${ui.autoScroll}</span>
       <p class="font-display text-3xl leading-none text-gold-400">${service.number}</p>
       <h3 class="mt-3 font-display text-3xl font-semibold leading-none text-white md:text-[2.55rem]">${service.title}</h3>
       <p class="mt-5 max-w-2xl text-[0.95rem] leading-7 text-white/70">${service.description}</p>
@@ -62,8 +61,10 @@ function serviceDetail(service, ui) {
 }
 
 const referenceIcons = {
+  benefits: '/assets/reference-icons/benefits.png',
   company: '/assets/reference-icons/company.png',
   engineering: '/assets/reference-icons/engineering.png',
+  hr: '/assets/reference-icons/hr.png',
   medical: '/assets/reference-icons/medical.png',
   mobility: '/assets/reference-icons/mobility.png'
 };
@@ -80,6 +81,14 @@ function referenceIconForSector(sector) {
 
   if (normalizedSector.includes('pharmaceutique') || normalizedSector.includes('pharmaceutical')) {
     return referenceIcons.medical;
+  }
+
+  if (normalizedSector.includes('avantages') || normalizedSector.includes('benefits')) {
+    return referenceIcons.benefits;
+  }
+
+  if (normalizedSector.includes('solutions rh') || normalizedSector.includes('hr solutions')) {
+    return referenceIcons.hr;
   }
 
   if (
@@ -147,7 +156,7 @@ function render() {
           <p class="hero-reveal mt-7 max-w-2xl text-lg leading-8 text-white/75">${content.hero.intro}</p>
           <div class="hero-reveal mt-10 flex flex-col gap-3 sm:flex-row">
             <a class="premium-button premium-button-primary" href="#contact">${content.hero.primaryCta}</a>
-            <a class="premium-button premium-button-secondary" href="#offre">${content.hero.secondaryCta}</a>
+            <a class="premium-button premium-button-secondary" href="#references">${content.hero.secondaryCta}</a>
           </div>
         </div>
       </section>
@@ -242,7 +251,7 @@ function render() {
         <div class="reveal max-w-3xl">
           <p class="eyebrow eyebrow-on-light">${content.referencesSection.eyebrow}</p>
           <h2 class="display-title text-5xl text-navy-950 md:text-6xl">${content.referencesSection.title}</h2>
-          <p class="mt-6 text-lg leading-8 text-slate-600">${content.referencesSection.intro}</p>
+          ${content.referencesSection.intro ? `<p class="mt-6 text-lg leading-8 text-slate-600">${content.referencesSection.intro}</p>` : ''}
         </div>
         <div class="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           ${content.references
